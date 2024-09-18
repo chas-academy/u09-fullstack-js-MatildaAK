@@ -1,7 +1,13 @@
+import Card from "../Card/Card";
+
 const GardenShop = () => {
     return (
       <>
-        <h2 className="font-bold text-blue-400">Din personliga handelsträdgård!</h2>
+      <Card 
+        title="Din personliga handelsträdgård!"
+        backgroundImage="../../public/snowdrops.svg">
+        Här hittar ni fantstiskt många olika växter, många fina trädgårdstillbehör och sist men inte minst inspiration och kunskap
+      </Card>
       </>
     );
   };
