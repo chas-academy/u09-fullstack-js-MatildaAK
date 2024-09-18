@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className="w-full h-full bg-cover bg-no-repeat bg-center"
+      className="w-full h-full bg-cover bg-no-repeat bg-center my-10"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
         backgroundSize: backgroundSize,
