@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage.tsx";
 import CoffeePage from "./pages/CoffeePage/CoffeePage.tsx";
 import GardenPage from "./pages/GardenPage/GardenPage.tsx";
+import BookPage from "./pages/BookPage/BookPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/Garden",
         element: <GardenPage />,
+      },
+      {
+        path: "/Book",
+        element: <BookPage />,
       },
     ],
   },
