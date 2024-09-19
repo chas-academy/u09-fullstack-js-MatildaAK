@@ -1,5 +1,5 @@
 import Card from "../Card/Card";
-import gardenImage from "../../assets/images/snowdrops.webp"
+import gardenImage from "../../assets/images/snowdrops.jpg"
 
 const GardenShop = () => {
     return (
