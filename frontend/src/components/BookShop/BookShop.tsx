@@ -1,5 +1,5 @@
 import Card from "../Card/Card";
-import bookImage from "../../assets/images/books.jpg";
+import bookImage from "../../assets/images/books.svg";
 
 const BookShop = () => {
     return (
