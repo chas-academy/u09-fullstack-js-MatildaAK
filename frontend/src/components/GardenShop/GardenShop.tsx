@@ -5,7 +5,7 @@ const GardenShop = () => {
       <>
       <Card 
         title="Din personliga handelsträdgård!"
-        backgroundImage="../../public/snowdrops.svg">
+        backgroundImage="../../public/snowdrops.webp">
         Här hittar ni fantstiskt många olika växter, många fina trädgårdstillbehör och sist men inte minst inspiration och kunskap
       </Card>
       </>
