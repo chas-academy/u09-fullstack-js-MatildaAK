@@ -1,11 +1,12 @@
 import Card from "../Card/Card";
+import bookImage from "../../assets/images/books.jpg";
 
 const BookShop = () => {
     return (
       <>
       <Card 
         title="Bokhandel"
-        backgroundImage="../../public/books.jpg">
+        backgroundImage={bookImage}>
         Besök vår mysiga bok avdelning och hitta en bok att köpa eller låna.
       </Card>
       </>
