@@ -7,12 +7,12 @@ export default defineConfig({
   plugins: [react(),
     VitePWA({ 
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', "/assets/images/book.jpg", "/assets/images/coffee.svg", "/assets/images/snowdrops.webp"],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', "/assets/images/book.jpg", "/assets/images/coffee.jpg", "/assets/images/snowdrops.jpg"],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,jpg,woff2, svg, webp}'],  // Cachar fler filtyper
+        globPatterns: ['**/*.{js,css,html,png,jpg,woff2, svg}'],  // Cachar fler filtyper
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/yourcdn\.com\/.*\.(png|jpg|jpeg|svg|webp)$/,
+            urlPattern: /^https:\/\/yourcdn\.com\/.*\.(png|jpg|jpeg|svg)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images',
