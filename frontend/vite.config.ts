@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Vite PWA Project',
-        short_name: 'Vite PWA Project',
+        name: 'MJs FlowerPot - Din handelsträdgård, bokhandel och café.',
+        short_name: 'MJs FlowerPot',
         theme_color: '#ffffff',
         icons: [
             {
