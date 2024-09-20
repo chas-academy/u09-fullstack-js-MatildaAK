@@ -1,5 +1,5 @@
 import Card from "../Card/Card";
-import gardenImage from "../../assets/images/snowdrops.svg";
+import gardenImage from "../../../assets/images/snowdrops.svg";
 import Button from "../../Button/Button";
 import { useNavigate } from "react-router-dom";
 
