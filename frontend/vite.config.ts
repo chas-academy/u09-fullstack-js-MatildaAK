@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [react(),
     VitePWA({ 
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', "/assets/images/book.jpg", "/assets/images/coffee.jpg", "/assets/images/snowdrops.jpg"],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', "/assets/images/book.svg", "/assets/images/coffee.svg", "/assets/images/snowdrops.svg"],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,jpg,woff2, svg}'],  // Cachar fler filtyper
+        globPatterns: ['**/*.{js,css,html,png,jpg,woff2,svg}'],  // Cachar fler filtyper
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/yourcdn\.com\/.*\.(png|jpg|jpeg|svg)$/,

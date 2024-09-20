@@ -1,5 +1,5 @@
 import Card from "../Card/Card";
-import coffeeImage from "../../assets/images/coffee.jpg";
+import coffeeImage from "../../assets/images/coffee.svg";
 
 const CoffeeInfo = () => {
     return (
