@@ -37,26 +37,36 @@ const MobilNav = () => {
         </button>
 
         <a href="/">
-          <img
-            className="h-12 w-12 ml-2 flex items-center"
-            src={icon}
-            alt="icon"
-          />
+          <span className="text-white font-medium text-sm flex items-center">
+            MJs
+            <img className="h-12 w-12 ml-2" src={icon} alt="icon" />
+            <span className="ml-2">FlowerPot</span>
+          </span>
         </a>
         <div className="flex items-center">
-        <a href="#" className="mr-6">
-          <FontAwesomeIcon icon={faCartShopping} size="xl" className="text-black dark:text-white" />
-        </a>
-        <a href="/login">
-          <FontAwesomeIcon icon={faUser} size="xl" className="text-black dark:text-white"  />
-        </a>
+          <a href="#" className="mr-6">
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              size="xl"
+              className="text-black dark:text-white"
+            />
+          </a>
+          <a href="/login">
+            <FontAwesomeIcon
+              icon={faUser}
+              size="xl"
+              className="text-black dark:text-white"
+            />
+          </a>
+        </div>
       </div>
-      </div>
-
 
       {isOpen && (
         <div className="md:hidden bg-primaryLightGreen dark:bg-primaryDarkGreen">
-          <a href="/" className="block px-4 py-2 text-black dark:text-white  hover:bg-green-700">
+          <a
+            href="/"
+            className="block px-4 py-2 text-black dark:text-white  hover:bg-green-700"
+          >
             Hem
           </a>
           <a
