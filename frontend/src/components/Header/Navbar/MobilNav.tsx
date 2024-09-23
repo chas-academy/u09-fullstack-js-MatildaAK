@@ -12,7 +12,7 @@ const MobilNav = () => {
 
   return (
     <>
-      <div className="flex justify-between px-6 py-4 sm:hidden">
+      <div className="flex justify-between px-6 py-4 sm:hidden bg-primaryLightGreen dark:bg-primaryDarkGreen">
         <button
           onClick={toggleMenu}
           className="text-black dark:text-white focus:outline-none"
