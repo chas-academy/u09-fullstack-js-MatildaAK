@@ -83,7 +83,7 @@ const MobilNav = () => {
             Handelsträdgård
           </a>
           <a
-            href="/books"
+            href="/book"
             className="block px-4 py-2 text-black dark:text-white  hover:bg-green-700"
           >
             Bokhandel
