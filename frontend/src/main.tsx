@@ -7,7 +7,9 @@ import GardenPage from "./pages/GardenPage/GardenPage.tsx";
 import BookPage from "./pages/BookPage/BookPage.tsx";
 import HomePage from "./pages/HomePage/HomePage.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
+import Product from "./pages/ProductPage/Product.tsx";
 import Login from "./pages/LoginPage/Login.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "book",
         element: <BookPage />,
+      },
+      {
+        path: "product",
+        element: <Product />,
       },
       {
         path: "login",
