@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-primaryLightGreen dark:bg-primaryDarkGreen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hidden sm:contents ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hidden sm:flex">
           <div className="flex justify-between h-16">
             <div className="basis-1/4 flex items-center justify-center">
               <a
@@ -27,7 +27,7 @@ const Navbar = () => {
                 Café
               </a>
             </div>
-            <div className="basis-1/2 flex items-center justify-center">
+            <div className="flex items-center justify-center basis-1/2">
               <span className="text-white font-bold text-xl flex items-center">
                 MJs
                 <img className="h-12 w-12 ml-2" src={icon} alt="icon" />
