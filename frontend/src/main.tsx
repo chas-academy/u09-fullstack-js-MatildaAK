@@ -3,12 +3,11 @@ import "./index.css";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CoffeePage from "./pages/CoffeePage/CoffeePage.tsx";
-import GardenPage from "./pages/GardenPage/GardenPage.tsx";
-import BookPage from "./pages/BookPage/BookPage.tsx";
 import HomePage from "./pages/HomePage/HomePage.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
 import Product from "./pages/ProductPage/Product.tsx";
 import Login from "./pages/LoginPage/Login.tsx";
+import Category from "./pages/CategoryPage/Category.tsx";
 
 
 const router = createBrowserRouter([
@@ -30,15 +29,11 @@ const router = createBrowserRouter([
       },
       {
         path: "garden",
-        element: <GardenPage />,
+        element: <Category />,
       },
       {
         path: "book",
-        element: <BookPage />,
-      },
-      {
-        path: "product",
-        element: <Product />,
+        element: <Category />,
       },
       {
         path: "login",
@@ -48,6 +43,14 @@ const router = createBrowserRouter([
         path: "cart",
         element: <Cart />,
       },
+      {
+        path: "product",
+        element: <Product />,
+      }, 
+      {
+        path: "product:productId",
+        element: <Product />,
+      }, 
     ],
   },
 ]);
