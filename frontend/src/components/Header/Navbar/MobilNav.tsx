@@ -12,7 +12,7 @@ const MobilNav = () => {
 
   return (
     <>
-      <div className="flex justify-between px-6 py-4 sm:hidden">
+      <div className="flex justify-between px-6 py-4 sm:hidden bg-primaryLightGreen dark:bg-primaryDarkGreen">
         <button
           onClick={toggleMenu}
           className="text-black dark:text-white focus:outline-none"
@@ -44,14 +44,15 @@ const MobilNav = () => {
           </span>
         </a>
         <div className="flex items-center">
-          <a href="#" className="mr-6">
+          <a href="/cart">
             <FontAwesomeIcon
               icon={faCartShopping}
               size="xl"
               className="text-black dark:text-white"
             />
+            <span className="relative flexCenter px-2 w-5 h-5 rounded-full bg-secondaryLightBrown dark:bg-secondaryDarkBrown text-black dark:text-white medium-14 -top-2">0</span>
           </a>
-          <a href="/login">
+          <a href="/login" className="ml-4">
             <FontAwesomeIcon
               icon={faUser}
               size="xl"
@@ -82,10 +83,10 @@ const MobilNav = () => {
             Handelsträdgård
           </a>
           <a
-            href="/books"
+            href="/book"
             className="block px-4 py-2 text-black dark:text-white  hover:bg-green-700"
           >
-            Böcker
+            Bokhandel
           </a>
           <a
             href="/about"
