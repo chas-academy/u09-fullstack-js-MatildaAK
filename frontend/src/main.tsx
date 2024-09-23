@@ -6,6 +6,7 @@ import CoffeePage from "./pages/CoffeePage/CoffeePage.tsx";
 import GardenPage from "./pages/GardenPage/GardenPage.tsx";
 import BookPage from "./pages/BookPage/BookPage.tsx";
 import HomePage from "./pages/HomePage/HomePage.tsx";
+import Cart from "./pages/Cart/Cart.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "book",
         element: <BookPage />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },
