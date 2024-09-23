@@ -1,4 +1,3 @@
-import MobilNav from "./MobilNav";
 import icon from "../../../assets/images/icon.svg";
 
 const Navbar = () => {
@@ -50,8 +49,6 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
-        <MobilNav />
       </nav>
     </>
   );
