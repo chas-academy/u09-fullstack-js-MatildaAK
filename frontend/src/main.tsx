@@ -10,6 +10,7 @@ import Login from "./pages/LoginPage/Login.tsx";
 import Category from "./pages/CategoryPage/Category.tsx";
 import bannergarden from "./assets/images/bannergarden.svg";
 import bannerbook from "./assets/images/bannerbooks.svg";
+import ShopContextProvider from "./Context/ShopContext.tsx";
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         element: <CoffeePage />,
       },
       {
+        path: "garden/product/:id",
+        element: <Product />,
+      },
+      {
         path: "garden",
         element: <Category category="garden" banner={bannergarden} />,
       },
@@ -38,25 +43,24 @@ const router = createBrowserRouter([
         element: <Category category="book" banner={bannerbook} />,
       },
       {
+        path: "book/product/:id",
+        element: <Product />,
+      },
+      {
         path: "login",
         element: <Login />,
       },
       {
         path: "cart",
         element: <Cart />,
-      },
-      {
-        path: "product",
-        element: <Product />,
-      }, 
-      {
-        path: "product:productId",
-        element: <Product />,
       }, 
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <RouterProvider router={router} />
+  <ShopContextProvider>
+      <RouterProvider router={router} />
+  </ShopContextProvider>
+
 );
