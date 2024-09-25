@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import all_product from "../assets/all_products";
+import all_products from "../assets/all_products";
 
 type Product = {
   id: number;
@@ -16,13 +16,13 @@ interface ShopContextProviderProps {
 }
 
 interface ShopContextType {
-  all_product: Product[];
+  all_products: Product[];
 }
 
-export const ShopContext = createContext<ShopContextType | null>(null);
+export const ShopContext = createContext<ShopContextType>({all_products: [],});
 
 const ShopContextProvider: React.FC<ShopContextProviderProps> = (props) => {
-  const contextValue = { all_product };
+  const contextValue = { all_products };
 
   return (
     <ShopContext.Provider value={contextValue}>
