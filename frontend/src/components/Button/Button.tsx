@@ -118,7 +118,7 @@ const Button: React.FC<ButtonProps> = ({
             size === "small"
               ? "min-h-12 min-w-44"
               : `min-h-12 ${filterItem ? "min-w-72 md:min-w-56" : "w-80"}`
-          } h-fit 'cursor-pointer rounded border border-black dark:border-white bg-primaryLightGreen dark:bg-primaryDarkGreen hover:outline-none hover:ring hover:ring-black dark:hover:ring-white font-medium text-xs text-black dark:text-white hover:text-base font-light font-sans shadow-custom '`}
+          } h-fit 'cursor-pointer rounded border border-black dark:border-white bg-primaryLightGreen dark:bg-primaryDarkGreen hover:outline-none hover:ring hover:ring-black dark:hover:ring-white text-xs text-black dark:text-white hover:text-base font-light font-sans shadow-custom '`}
           type={type}
           onClick={onClick}
         >

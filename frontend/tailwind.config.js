@@ -17,7 +17,8 @@ export default {
       white: "#fdfcfc",
       primaryLightGreen: "#daefc8",
       secondaryLightBrown: "#e5cac7",
-      thirdLightBlue: "#b0c2dd"
+      thirdLightBlue: "#b0c2dd",
+      error: "#dc2626"
     }
   },
   plugins: [],
