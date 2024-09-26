@@ -30,11 +30,11 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center justify-center">
-                    <span className="text-white font-bold text-xl flex items-center">
+                    <a href="/" className="text-white font-bold text-xl flex items-center">
                         MJs
                         <img className="h-12 w-12 ml-2" src={icon} alt="icon" />
                         <span className="ml-2">FlowerPot</span>
-                    </span>
+                    </a>
                 </div>
 
                 <div className="flex items-center space-x-4">
