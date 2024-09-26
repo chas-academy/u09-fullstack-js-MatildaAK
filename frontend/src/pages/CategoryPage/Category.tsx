@@ -15,7 +15,7 @@ const Category: React.FC<CategoryProps> = ({category, banner}) => {
   return (
     <section>
       <div>
-        <img src={banner} alt="Banner bild" className="h-[250px] md:h-[320px] w-full object-cover" />
+        <img src={banner} alt="Banner bild" className="h-[250px] md:h-[400px] w-full object-cover" />
       </div>
       <div className="text-black dark:text-white">
         {/* <h5>Visar 1-12 <span> av 36 produkter</span></h5> */}
