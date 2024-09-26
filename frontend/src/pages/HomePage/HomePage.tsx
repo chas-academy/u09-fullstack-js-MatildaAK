@@ -8,7 +8,7 @@ const HomePage = () => {
   return (
     <>
 
-    <img src={gardenImg} alt="Bild på trädgård med bord" />
+    <img src={gardenImg} alt="Bild på trädgård" className="h-[250px] md:h-[400px] w-full object-cover" />
 
       <GardenShop/>
 
