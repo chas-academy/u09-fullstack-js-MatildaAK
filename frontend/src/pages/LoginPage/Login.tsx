@@ -10,7 +10,6 @@ const LoginForm: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('Logging in', { loginIdentifier, password })
-        // Lägg till logik för att hantera inloggning
     }
 
     return (
