@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons'
 import icon from '../../../assets/images/icon.svg'
+import { ShopContext } from '../../../Context/ShopContext'
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const {getTotalCartItems} = useContext(ShopContext);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
@@ -45,7 +47,7 @@ const Navbar = () => {
                             className="text-black dark:text-white"
                         />
                         <span className="relative px-2 w-5 h-5 rounded-full bg-secondaryLightBrown dark:bg-secondaryDarkBrown text-black dark:text-white medium-14 -top-2">
-                            0
+                            {getTotalCartItems()}
                         </span>
                     </a>
                     <a href="/login" className="text-black dark:text-white hover:text-primaryLightGreen">
@@ -87,7 +89,7 @@ const Navbar = () => {
                             className="text-black dark:text-white"
                         />
                         <span className="relative px-2 w-5 h-5 rounded-full bg-secondaryLightBrown dark:bg-secondaryDarkBrown text-black dark:text-white medium-14 -top-2">
-                            0
+                        {getTotalCartItems()}
                         </span>
                     </a>
                     <a href="/login" className="ml-4">
