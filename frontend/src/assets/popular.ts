@@ -2,6 +2,7 @@ import p1_img from "../assets/images/itEndsWithUs.png";
 import p2_img from "../assets/images/itStartWithUs.png";
 import p3_img from "../assets/images/november9.png";
 import p4_img from "../assets/images/uglyLove.png";
+import p5_img from "../assets/images/paprika.png";
 
 const POPULAR = [
     {
@@ -10,6 +11,7 @@ const POPULAR = [
         author: "Colleen Hoover",
         image:p1_img,
         price: 149,
+        category: "book",
     },
     {
         id:2,
@@ -17,6 +19,7 @@ const POPULAR = [
         author: "Colleen Hoover",
         image:p2_img,
         price: 149,
+        category: "book",
     },
     {
         id:3,
@@ -24,6 +27,7 @@ const POPULAR = [
         author: "Colleen Hoover",
         image:p3_img,
         price: 149,
+        category: "book",
     },
     {
         id:4,
@@ -31,6 +35,15 @@ const POPULAR = [
         author: "Colleen Hoover",
         image:p4_img,
         price: 149,
+        category: "book",
+    },
+    {
+        id:4,
+        title: "Paprika",
+        sort: "Snackpaprika",
+        image:p5_img,
+        price: 149,
+        category: "garden",
     },
 ]
 
