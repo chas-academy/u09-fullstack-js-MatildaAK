@@ -2,7 +2,7 @@ const About = () => {
   return (
     <>
     <div className="flex justify-center">
-    <div className="text-black dark:text-white bg-primaryLightGreen dark:bg-primaryDarkGreen w-full md:w-4/5">
+    <div className="text-black dark:text-white bg-primaryLightGreen dark:bg-primaryDarkGreen w-full md:w-4/5 xl:w-3/5">
         <div className="text-xs font-light px-4 py-10 text-center">
           <div>Välkommen till M&J´s Flowerpot – En Oas för Sinne och Smak.</div>
           <div className="py-8">

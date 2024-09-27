@@ -11,6 +11,7 @@ import Category from "./pages/CategoryPage/Category.tsx";
 import bannergarden from "./assets/images/bannergarden.svg";
 import bannerbook from "./assets/images/bannerbooks.svg";
 import ShopContextProvider from "./Context/ShopContext.tsx";
+import Register from "./pages/RegisterPage/Register.tsx";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />
       },
       {
         path: "cart",
