@@ -8,10 +8,10 @@ const Footer = () => {
                 <div className="flex justify-between gap-x-10 py-4 md:gap-x-20">
                     <a href="#" className='hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue'>FAQ</a>
                     <a href="#" className='hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue'>MJs</a>
-                    <a href="#" className='md:cursor-pointer hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue'>
+                    <a href="#" className='md:cursor-pointer hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue' aria-label='Facebook ikon'>
                     <FontAwesomeIcon icon={faSquareFacebook} size="xl" />
                     </a>
-                    <a href="#" className='md:cursor-pointer hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue'>
+                    <a href="#" className='md:cursor-pointer hover:text-thirdDarkBlue dark:hover:text-thirdLightBlue' aria-label='Instagram ikon'>
                         <FontAwesomeIcon icon={faInstagram} size="xl" />
                     </a>
                 </div>

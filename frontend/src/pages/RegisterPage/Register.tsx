@@ -3,13 +3,14 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import { Link } from 'react-router-dom'
 
-const LoginForm: React.FC = () => {
-    const [loginIdentifier, setLoginIdentifier] = useState('')
+const RegisterForm: React.FC = () => {
+    const [userName, setUserName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('Logging in', { loginIdentifier, password })
+        console.log('Registrerad användare', { userName, email, password })
     }
 
     return (
@@ -19,10 +20,17 @@ const LoginForm: React.FC = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <Input
                             type="text"
-                            value={loginIdentifier}
-                            onChange={(e) => setLoginIdentifier(e.target.value)}
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
                             name="email"
-                            placeholder="Användarnamn eller E-post"
+                            placeholder="Användarnamn"
+                        />
+                        <Input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            name="email"
+                            placeholder="E-post"
                         />
                         <Input
                             type="password"
@@ -32,18 +40,18 @@ const LoginForm: React.FC = () => {
                             placeholder="Lösenord"
                         />
                         <div className="flex justify-center">
-                        <Button type="submit" size="small" variant="third">
-                            Logga in
-                        </Button>
+                            <Button type="submit" size="small" variant="third">
+                                Skapa användare
+                            </Button>
                         </div>
 
                         <div className="text-center mt-4 mx-12 md:mx-2 text-black dark:text-white">
-                            Har du inget konto?{' '}
+                            Har du redan ett konto?{' '}
                             <Link
-                                to="/register"
+                                to="/login"
                                 className="underline hover:underline-offset-4 font-bold"
                             >
-                                Registrera dig här!
+                                Logga in här!
                             </Link>
                         </div>
                     </form>
@@ -53,4 +61,4 @@ const LoginForm: React.FC = () => {
     )
 }
 
-export default LoginForm
+export default RegisterForm

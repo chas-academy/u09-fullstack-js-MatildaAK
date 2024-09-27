@@ -1,7 +1,13 @@
+import coffee from "../../assets/images/coffee.svg";
+import Meny from "../../components/Meny/Meny";
+
 const CoffeePage = () => {
     return (
       <>
-        <h1 className="text-3xl font-bold underline text-blue-500">Välkommen till MJs Flowerpot café</h1>
+      <img src={coffee} alt="Kaffe kopp med svart kaffe och macrones" className="h-[250px] md:h-[400px] w-full object-cover" />
+        {/* <h1 className="text-base md:text-3xl text-center font-bold underline text-black dark:text-white my-8">Välkommen in på en kaffe i MJs café</h1> */}
+
+        <Meny />
       </>
     );
   };

@@ -4,10 +4,19 @@ import product_rt_2 from "../../assets/images/product_rt_2.png";
 import product_rt_3 from "../../assets/images/product_rt_3.png";
 import product_rt_4 from "../../assets/images/product_rt_4.png";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
+
+
 
 const ProductDisplay = (props: { product: any; }) => {
 
     const {product} = props;
+    const {addToCart} = useContext(ShopContext);
+
+    const handleAddToCart = () => {
+        addToCart(product.id, 1);
+    };
 
   return (
     <section>
@@ -37,7 +46,7 @@ const ProductDisplay = (props: { product: any; }) => {
                 <div>
                     <div>{product.price} kr</div>
                 </div>
-                <button>Lägg till i kundvagn</button>
+                <button onClick={handleAddToCart}>Lägg till i kundvagn</button>
             </div>
         </div>
     </section>
