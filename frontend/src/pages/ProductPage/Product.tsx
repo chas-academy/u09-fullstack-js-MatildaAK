@@ -3,6 +3,8 @@ import { ShopContext } from "../../Context/ShopContext"
 import { useParams } from "react-router-dom";
 import ProductHd from "../../components/Product/ProductHd";
 import ProductDisplay from "../../components/Product/ProductDisplay";
+import ProductDescription from "../../components/Product/ProductDescription";
+import RelatedProducts from "../../components/Product/RelatedProducts";
 
 const Product = () => {
   const {all_products} = useContext(ShopContext);
@@ -15,11 +17,14 @@ const Product = () => {
   if(!product){
     return <div>Hittade ingen produkt</div>
   }
+
   return (
     <section>
       <div>
         <ProductHd product={product} />
         <ProductDisplay product={product} />
+        <ProductDescription />
+        <RelatedProducts category={product.category} currentProductId={product.id} />
       </div>
     </section>
   )

@@ -13,7 +13,7 @@ type ItemProps = {
 const Item: React.FC<ItemProps> = ({ id, category, title, author, sort, image, price }) => {
     return (
         <Link to={`/${category}/product/${id}`}>
-            <div className="bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3">
+            <div className="mx-6 my-3">
                 <div className="flex justify-center mt-4">
                     <img src={image} alt="produkt bild" />
                 </div>
