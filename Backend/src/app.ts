@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import imageRoutes from './routes/imageRoutes';
+import imageRoutes from './routes/image';
 
 const app = express();
 const mongoose = require("mongoose");
