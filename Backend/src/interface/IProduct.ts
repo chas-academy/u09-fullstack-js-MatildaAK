@@ -6,6 +6,7 @@ export interface IProduct {
     price: number;
     author?: string;
     sort?: string;
+    description: string;
     date: Date;
     available: boolean;
 

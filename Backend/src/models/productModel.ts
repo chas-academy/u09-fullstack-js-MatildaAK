@@ -1,4 +1,4 @@
-import { IProduct } from "interface/IProduct";
+import { IProduct } from "../interface/IProduct";
 import mongoose, { model, Schema } from "mongoose";
 
 const productSchema = new Schema<IProduct> (
@@ -26,6 +26,10 @@ const productSchema = new Schema<IProduct> (
     sort: {
         type: String,
         require: false,
+    },
+    description: {
+        type: String,
+        require: true,
     },
     date: {
         type: Date,
