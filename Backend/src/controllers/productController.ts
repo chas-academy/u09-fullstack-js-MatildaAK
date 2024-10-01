@@ -13,19 +13,31 @@ const create = async (data: IProduct) => {
 };
 
 export const createProduct = async (req: any, res: any) => {
-    const { id, title, category, image, price, author, sort, description, available, date } =
-    req.body;
+  const {
+    id,
+    title,
+    category,
+    price,
+    author,
+    sort,
+    description,
+    available,
+    date,
+  } = req.body;
+  const image = req.file;
 
-    if (!title || !price || !category) {
-        return res.status(400).json({ message: "Titel, pris och kategori är obligatoriska fält" });
-    }
+  if (!title || !price || !category) {
+    return res
+      .status(400)
+      .json({ message: "Titel, pris och kategori är obligatoriska fält" });
+  }
 
   try {
     const result = await create({
       id,
       title,
       category,
-      image,
+      image: image?.path,
       price,
       author,
       sort,
