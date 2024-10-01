@@ -14,7 +14,7 @@ const create = async (data: IProduct) => {
 
 export const createProduct = async (req: any, res: any) => {
   const {
-    id,
+    _id,
     title,
     category,
     price,
@@ -34,7 +34,7 @@ export const createProduct = async (req: any, res: any) => {
 
   try {
     const result = await create({
-      id,
+      _id,
       title,
       category,
       image: image?.path,
