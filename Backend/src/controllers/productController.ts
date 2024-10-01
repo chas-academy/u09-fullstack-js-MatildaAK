@@ -3,8 +3,9 @@ import Product from "../models/productModel";
 
 const create = async (data: IProduct) => {
   try {
-    const product = await Product.create(data);
-    return product;
+    const product = new Product(data);
+    const savedProduct = await product.save();
+    return savedProduct;
   } catch (error) {
     console.error("Error creating product:", error);
     throw new Error("Misslyckades med att skapa produkten");
