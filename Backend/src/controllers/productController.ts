@@ -29,6 +29,27 @@ const readAll = async () => {
   }
 };
 
+const read = async (id: number) => {
+  try {
+    const product = await Product.findOne({id});
+
+    if (!product) {
+      return null;
+    }
+    return product;
+  } catch (error) {
+    throw new Error("Kunde inte hitta produkt");
+  }
+};
+
+const update = async (id: number, data: IProduct) => {
+  try {
+    return await Product.findOneAndUpdate({id}, data, { new: true });
+  } catch (error) {
+    throw new Error("Kunde inte uppdatera produkt");
+  }
+};
+
 export const createProduct = async (req: any, res: any) => {
   try {
     let lastProduct = await Product.findOne({}).sort({ id: -1 });
@@ -96,5 +117,28 @@ export const getAllProducts = async (req: any, res: any) => {
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: "Inga produkter hittades!" });
+  }
+};
+
+export const updateProduct = async (req: any, res: any) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const updatedProductData = req.body;
+
+    const existingProduct = await read(id);
+
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Produkt hittades inte" });
+    }
+
+    const updatedProduct = await update(id, updatedProductData);
+
+    res.status(200).json({ message: "Lyckad uppdatering", updatedProduct });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        message: "Opps! Något hände vid försök av uppdatering av produkt",
+      });
   }
 };
