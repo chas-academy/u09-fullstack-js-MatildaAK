@@ -3,13 +3,17 @@ import mongoose, { model, Schema } from "mongoose";
 
 const productSchema = new Schema<IProduct> (
 {
+    id: {
+        type: Number,
+        require: true,
+    },
     title: {
         type: String,
         require: true,
     },
     image: {
         type: String,
-        require: true,
+        require: false,
     },
     category: {
         type: String,
