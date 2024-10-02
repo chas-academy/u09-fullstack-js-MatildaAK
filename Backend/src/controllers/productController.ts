@@ -14,9 +14,18 @@ const create = async (data: IProduct) => {
 
 const deleteOne = async (id: number) => {
   try {
-    return await Product.findOneAndDelete({id});
+    return await Product.findOneAndDelete({ id });
   } catch (error) {
     throw new Error("Misslyckades med att ta bort produkten");
+  }
+};
+
+const readAll = async () => {
+  try {
+    const producs = await Product.find({});
+    return producs;
+  } catch (error) {
+    throw new Error("Hittade inga produkter");
   }
 };
 
@@ -43,19 +52,19 @@ export const createProduct = async (req: any, res: any) => {
         .status(400)
         .json({ message: "Titel, pris och kategori är obligatoriska fält" });
     }
-    
-      const result = await create({
-        id,
-        title,
-        category,
-        image: image?.path,
-        price,
-        author,
-        sort,
-        description,
-        date,
-        available,
-      });
+
+    const result = await create({
+      id,
+      title,
+      category,
+      image: image?.path,
+      price,
+      author,
+      sort,
+      description,
+      date,
+      available,
+    });
 
     res.status(201).json({ message: "Produkt tillagd", product: result });
   } catch (error) {
@@ -78,5 +87,14 @@ export const deleteProduct = async (req: any, res: any) => {
     res.status(500).json({
       message: "Opps! Något hände vid försök av borttag av produkt",
     });
+  }
+};
+
+export const getAllProducts = async (req: any, res: any) => {
+  try {
+    const products = await readAll();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Inga produkter hittades!" });
   }
 };
