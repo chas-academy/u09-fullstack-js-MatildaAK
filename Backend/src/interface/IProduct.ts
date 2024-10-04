@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 
 export interface IProduct {
     id: number;
@@ -11,5 +10,4 @@ export interface IProduct {
     description: string;
     date: Date;
     available: boolean;
-
 }
