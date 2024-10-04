@@ -21,12 +21,21 @@ const deleteOne = async (id: number) => {
   }
 };
 
-const readAll = async () => {
+const fetchProducts = async (category?: string) => {
+  if (category) {
+    return await Product.find({ category });
+  } else {
+    return await Product.find({});
+  }
+};
+
+const readAll = async (req: any, res: any) => {
   try {
-    const producs = await Product.find({});
-    return producs;
+    const { category } = req.query;
+    const products = await fetchProducts(category);
+    res.status(200).json({ success: true, products });
   } catch (error) {
-    throw new Error("Hittade inga produkter");
+    res.status(500).json({ success: false, message: "Misslyckades med att hämta produkter" });
   }
 };
 
@@ -54,19 +63,11 @@ const update = async (id: number, data: IProduct) => {
 export const createProduct = async (req: any, res: any) => {
   try {
 
-    let imageUrls: string[] = [];
+    let base64Images: string[] = [];
     if (req.files && Array.isArray(req.files)) {
-      imageUrls = await Promise.all(req.files.map(async (file: any) => {
-        const base64Image = file.buffer.toString('base64');
-
-        const newImage = new Image({
-          imageName: file.originalname,
-          imageData: base64Image,
-        });
-
-        await newImage.save();
-        return newImage._id;
-      }));
+      base64Images = req.files.map((file: any) => {
+        return file.buffer.toString('base64'); // Konvertera bildens buffer till Base64
+      });
     }
     
     let lastProduct = await Product.findOne({}).sort({ id: -1 });
@@ -94,7 +95,7 @@ export const createProduct = async (req: any, res: any) => {
       id,
       title,
       category,
-      image: imageUrls,
+      image: base64Images,
       price,
       author,
       sort,
@@ -108,8 +109,6 @@ export const createProduct = async (req: any, res: any) => {
     res.status(500).json({ message: "Misslyckades med att skapa produkten" });
   }
 };
-
-
 
 export const deleteProduct = async (req: any, res: any) => {
   try {
@@ -131,12 +130,14 @@ export const deleteProduct = async (req: any, res: any) => {
 
 export const getAllProducts = async (req: any, res: any) => {
   try {
-    const products = await readAll();
-    res.status(200).json(products);
+    const { category } = req.query;
+    const products = await fetchProducts(category);
+    res.status(200).json({ success: true, products });
   } catch (error) {
     res.status(500).json({ message: "Inga produkter hittades!" });
   }
 };
+
 
 export const updateProduct = async (req: any, res: any) => {
   try {
