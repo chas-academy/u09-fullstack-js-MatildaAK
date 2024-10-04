@@ -1,5 +1,6 @@
 import { IProduct } from "../interface/IProduct";
 import Product from "../models/productModel";
+import Image from "../models/imageModel";
 
 const create = async (data: IProduct) => {
   try {
@@ -52,6 +53,22 @@ const update = async (id: number, data: IProduct) => {
 
 export const createProduct = async (req: any, res: any) => {
   try {
+
+    let imageUrls: string[] = [];
+    if (req.files && Array.isArray(req.files)) {
+      imageUrls = await Promise.all(req.files.map(async (file: any) => {
+        const base64Image = file.buffer.toString('base64');
+
+        const newImage = new Image({
+          imageName: file.originalname,
+          imageData: base64Image,
+        });
+
+        await newImage.save();
+        return newImage._id;
+      }));
+    }
+    
     let lastProduct = await Product.findOne({}).sort({ id: -1 });
 
     let id = lastProduct ? lastProduct.id + 1 : 1;
@@ -66,7 +83,6 @@ export const createProduct = async (req: any, res: any) => {
       available,
       date,
     } = req.body;
-    const image = req.file;
 
     if (!title || !price || !category) {
       return res
@@ -78,7 +94,7 @@ export const createProduct = async (req: any, res: any) => {
       id,
       title,
       category,
-      image: image?.path,
+      image: imageUrls,
       price,
       author,
       sort,
@@ -92,6 +108,8 @@ export const createProduct = async (req: any, res: any) => {
     res.status(500).json({ message: "Misslyckades med att skapa produkten" });
   }
 };
+
+
 
 export const deleteProduct = async (req: any, res: any) => {
   try {
