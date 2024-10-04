@@ -7,7 +7,7 @@ interface IFormData {
   title: string;
   author: string;
   category: string;
-  image: File | null; // För en bild
+  image: string; // För en bild
   sort: string;
   description: string;
   price: number;
@@ -18,7 +18,7 @@ const AddProduct = () => {
     title: "",
     author: "",
     category: "",
-    image: null,
+    image: "",
     sort: "",
     description: "",
     price: 0,
