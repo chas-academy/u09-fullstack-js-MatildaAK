@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CategorySelect from "./CategorySelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import UpdateProductModal from "../UpdateProduct/UpdateProduct";
 
 interface IProduct {
   id: number;
@@ -19,6 +20,8 @@ const ProductList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,6 +41,27 @@ const ProductList: React.FC = () => {
 
     fetchProducts();
   }, []);
+
+  const openModal = (product: IProduct) => {
+    setSelectedProduct(product);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleUpdate = (updatedProduct: IProduct) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === updatedProduct.id
+          ? { ...product, ...updatedProduct }
+          : product
+      )
+    );
+    closeModal();
+  };
 
   if (loading) {
     return <div>Laddar produkter...</div>;
@@ -78,12 +102,14 @@ const ProductList: React.FC = () => {
       console.log(response.status);
 
       if (response.ok) {
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== id)
+        );
+
         window.alert("Produkten har blivit borttaget.");
-        window.location.reload();
 
         localStorage.removeItem("id");
         // localStorage.removeItem("token");
-
       } else {
         throw new Error("Lyckades inte radera produkt");
       }
@@ -121,19 +147,22 @@ const ProductList: React.FC = () => {
                         {product.category === "garden" && (
                           <p className="py-2">{product.sort}</p>
                         )}
+                        <div>{product.price}:-</div>
                       </div>
                     </div>
                   </div>
                   <div className="basis-1/2">
                     <div className="flex flex-row justify-end gap-x-4">
-                      <div className="cursor-pointer">
-                      <FontAwesomeIcon icon={faPenToSquare} />
+                      <div
+                        onClick={() => openModal(product)}
+                        className="cursor-pointer"
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
                       </div>
                       <div className="pl-4 text-error cursor-pointer">
                         <FontAwesomeIcon
                           icon={faTrashCan}
-                          onClick={() => removeFromList(product.id)
-                          }
+                          onClick={() => removeFromList(product.id)}
                         />
                       </div>
                     </div>
@@ -144,6 +173,15 @@ const ProductList: React.FC = () => {
           </li>
         ))}
       </ul>
+
+      {selectedProduct && (
+        <UpdateProductModal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          onUpdate={handleUpdate}
+          product={selectedProduct}
+        />
+      )}
     </div>
   );
 };

@@ -29,17 +29,21 @@ const fetchProducts = async (category?: string) => {
   }
 };
 
-const readAll = async (req: any, res: any) => {
-  try {
-    const { category } = req.query;
-    const products = await fetchProducts(category);
-    res.status(200).json({ success: true, products });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Misslyckades med att hämta produkter" });
-  }
-};
+// const readAll = async (req: any, res: any) => {
+//   try {
+//     const { category } = req.query;
+//     const products = await fetchProducts(category);
+//     res.status(200).json({ success: true, products });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Misslyckades med att hämta produkter" });
+//   }
+// };
 
 const read = async (id: number) => {
+  if (!id) {
+    throw new Error("Ett giltigt ID måste anges.");
+  }
+
   try {
     const product = await Product.findOne({id});
 
@@ -66,7 +70,7 @@ export const createProduct = async (req: any, res: any) => {
     let base64Images: string[] = [];
     if (req.files && Array.isArray(req.files)) {
       base64Images = req.files.map((file: any) => {
-        return file.buffer.toString('base64'); // Konvertera bildens buffer till Base64
+        return file.buffer.toString('base64');
       });
     }
     
@@ -143,6 +147,18 @@ export const updateProduct = async (req: any, res: any) => {
   try {
     const id = parseInt(req.params.id, 10);
     const updatedProductData = req.body;
+
+    let base64Images: string[] = [];
+    
+    if (req.files && Array.isArray(req.files)) {
+      base64Images = req.files.map((file: any) => {
+        return file.buffer.toString('base64');
+      });
+    }
+
+    if (base64Images.length > 0) {
+      updatedProductData.image = base64Images;
+    }
 
     const existingProduct = await read(id);
 
