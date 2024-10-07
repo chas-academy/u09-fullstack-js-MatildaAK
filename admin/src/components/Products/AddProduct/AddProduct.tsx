@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 interface IFormData {
   title: string;
-  author: string;
+  author?: string;
   category: string;
-  image: string; // För en bild
-  sort: string;
+  image: string;
+  sort?: string;
   description: string;
   price: number;
 }
 
 const AddProduct = () => {
-  const [formData, setFormData] = useState<IFormData>({
+  const [productData, setProductData] = useState<IFormData>({
     title: "",
     author: "",
     category: "",
@@ -43,20 +43,20 @@ const AddProduct = () => {
 
     if (type === "file" && input.files) {
       const fileArray = Array.from(input.files);
-      setFormData((prevFormData) => ({
+      setProductData((prevFormData) => ({
         ...prevFormData,
         [name]: fileArray,
       }));
       setSelectedFileNames(fileArray.map((file) => file.name));
     } else if (name === "price") {
       const priceValue = parseFloat(value);
-      setFormData((prevFormData) => ({
+      setProductData((prevFormData) => ({
         ...prevFormData,
         [name]: priceValue,
       }));
     } else {
       const value = event.target.value;
-      setFormData((prevFormData) => ({
+      setProductData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
       }));
@@ -68,16 +68,16 @@ const AddProduct = () => {
 
     const formDataToSend = new FormData();
 
-    Object.keys(formData).forEach((key) => {
-      const value = formData[key as keyof IFormData];
+    Object.keys(productData).forEach((key) => {
+      const value = productData[key as keyof IFormData];
       formDataToSend.append(
         key,
         typeof value === "number" ? value.toString() : value || ""
       );
     });
 
-    if (formData.image && Array.isArray(formData.image)) {
-      formData.image.forEach((file) => {
+    if (productData.image && Array.isArray(productData.image)) {
+      productData.image.forEach((file) => {
         formDataToSend.append("image", file);
       });
     }
@@ -127,7 +127,7 @@ const AddProduct = () => {
                 type="text"
                 name="title"
                 className="text-black capitalize"
-                value={formData.title}
+                value={productData.title}
                 onChange={handleInputChange}
               />
             </div>
@@ -137,7 +137,7 @@ const AddProduct = () => {
                 type="text"
                 name="price"
                 className="text-black"
-                value={formData.price}
+                value={productData.price}
                 onChange={handleInputChange}
               />
             </div>
@@ -148,7 +148,7 @@ const AddProduct = () => {
                 className="text-black"
                 cols={23}
                 rows={5}
-                value={formData.description}
+                value={productData.description}
                 onChange={handleInputChange}
               />
             </div>
@@ -157,7 +157,7 @@ const AddProduct = () => {
               <select
                 name="category"
                 className="text-black text-center rounded-sm"
-                value={formData.category}
+                value={productData.category}
                 onChange={handleInputChange}
               >
                 <option value="">Välj...</option>
@@ -165,19 +165,19 @@ const AddProduct = () => {
                 <option value="book">Böcker</option>
               </select>
             </div>
-            {formData.category === "book" && (
+            {productData.category === "book" && (
               <div>
                 <h4>Författare:</h4>
                 <input
                   type="text"
                   name="author"
                   className="text-black capitalize"
-                  value={formData.author}
+                  value={productData.author}
                   onChange={handleInputChange}
                 />
               </div>
             )}
-            {formData.category === "garden" && (
+            {productData.category === "garden" && (
               <div>
                 <div>
                   <h4>Sort:</h4>
@@ -185,7 +185,7 @@ const AddProduct = () => {
                     type="text"
                     name="sort"
                     className="text-black"
-                    value={formData.sort}
+                    value={productData.sort}
                     onChange={handleInputChange}
                   />
                 </div>
