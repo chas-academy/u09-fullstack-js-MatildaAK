@@ -1,5 +1,6 @@
 import { IProduct } from "../interface/IProduct";
 import Product from "../models/productModel";
+import Image from "../models/imageModel";
 
 const create = async (data: IProduct) => {
   try {
@@ -20,16 +21,29 @@ const deleteOne = async (id: number) => {
   }
 };
 
-const readAll = async () => {
-  try {
-    const producs = await Product.find({});
-    return producs;
-  } catch (error) {
-    throw new Error("Hittade inga produkter");
+const fetchProducts = async (category?: string) => {
+  if (category) {
+    return await Product.find({ category });
+  } else {
+    return await Product.find({});
   }
 };
 
+// const readAll = async (req: any, res: any) => {
+//   try {
+//     const { category } = req.query;
+//     const products = await fetchProducts(category);
+//     res.status(200).json({ success: true, products });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Misslyckades med att hämta produkter" });
+//   }
+// };
+
 const read = async (id: number) => {
+  if (!id) {
+    throw new Error("Ett giltigt ID måste anges.");
+  }
+
   try {
     const product = await Product.findOne({id});
 
@@ -52,6 +66,14 @@ const update = async (id: number, data: IProduct) => {
 
 export const createProduct = async (req: any, res: any) => {
   try {
+
+    let base64Images: string[] = [];
+    if (req.files && Array.isArray(req.files)) {
+      base64Images = req.files.map((file: any) => {
+        return file.buffer.toString('base64');
+      });
+    }
+    
     let lastProduct = await Product.findOne({}).sort({ id: -1 });
 
     let id = lastProduct ? lastProduct.id + 1 : 1;
@@ -66,7 +88,6 @@ export const createProduct = async (req: any, res: any) => {
       available,
       date,
     } = req.body;
-    const image = req.file;
 
     if (!title || !price || !category) {
       return res
@@ -78,7 +99,7 @@ export const createProduct = async (req: any, res: any) => {
       id,
       title,
       category,
-      image: image?.path,
+      image: base64Images,
       price,
       author,
       sort,
@@ -113,17 +134,31 @@ export const deleteProduct = async (req: any, res: any) => {
 
 export const getAllProducts = async (req: any, res: any) => {
   try {
-    const products = await readAll();
-    res.status(200).json(products);
+    const { category } = req.query;
+    const products = await fetchProducts(category);
+    res.status(200).json({ success: true, products });
   } catch (error) {
     res.status(500).json({ message: "Inga produkter hittades!" });
   }
 };
 
+
 export const updateProduct = async (req: any, res: any) => {
   try {
     const id = parseInt(req.params.id, 10);
     const updatedProductData = req.body;
+
+    let base64Images: string[] = [];
+    
+    if (req.files && Array.isArray(req.files)) {
+      base64Images = req.files.map((file: any) => {
+        return file.buffer.toString('base64');
+      });
+    }
+
+    if (base64Images.length > 0) {
+      updatedProductData.image = base64Images;
+    }
 
     const existingProduct = await read(id);
 
