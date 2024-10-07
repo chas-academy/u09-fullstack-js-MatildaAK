@@ -1,4 +1,3 @@
-
 export interface IProduct {
     id: number;
     category: string;
