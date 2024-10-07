@@ -9,7 +9,7 @@ const productRouter = Router();
 productRouter.post('/skapa', uploadMiddleware, createProduct);
 productRouter.delete('/:id', deleteProduct);
 productRouter.get('/produkter', getAllProducts);
-productRouter.put('/:id', updateProduct);
+productRouter.put('/:id', uploadMiddleware,  updateProduct);
 
 
 export default productRouter;
