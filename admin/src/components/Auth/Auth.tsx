@@ -56,15 +56,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const storedIdentifier = localStorage.getItem("identifier");
     const storedUserId = localStorage.getItem("id");
     
-
-    // Kontrollera om token finns och om den är giltig
     if (storedToken && !isTokenExpired(storedToken)) {
       setToken(storedToken);
       setIdentifier(storedIdentifier);
       setUserId(storedUserId);
-      setIsAuthenticated(true); // Sätt användaren som autentiserad om token är giltig
+      setIsAuthenticated(true);
     } else {
-      // Token är ogiltig eller finns inte, logga ut
       logout();
     }
   }, []);
@@ -74,7 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIdentifier(identifier);
     setUserId(userId);
     setToken(token);
-    // localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("isAuthenticated", "true");
     localStorage.setItem("identifier", identifier);
     localStorage.setItem("id", userId);
     localStorage.setItem("token", token);
