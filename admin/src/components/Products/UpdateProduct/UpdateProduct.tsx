@@ -143,6 +143,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
       const updatedProduct = await response.json();
       onUpdate(updatedProduct);
       onRequestClose();
+      window.alert("Produkt är uppdaterad.");
     } catch (error) {
       console.error("Error updating product:", error);
     }
