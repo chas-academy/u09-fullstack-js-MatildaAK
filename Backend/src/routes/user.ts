@@ -9,6 +9,7 @@ import {
   deleteUser,
   deleteOwnAccount,
   searchUsers,
+  createUser,
 } from "../controllers/userController";
 import { IUser } from "../interface/IUser";
 import { auth, admin, CustomRequest } from "../middleware/auth";
@@ -60,8 +61,6 @@ userRouter.post("/login", async (req, res) => {
       return res.status(500).json({ error: "Något gick fel under inloggningen" });
     }
   });
-  
-  
 
 // Logout user
 userRouter.post("/logout", auth, async (req: CustomRequest, res) => {
@@ -149,6 +148,19 @@ userRouter.delete("/:id", auth, admin, async (req, res) => {
   const id = req.params.id;
   const deletedUser = await deleteUser(id);
   res.status(200).json({ message: "Användare raderad", deletedUser });
+});
+
+userRouter.post('/anvandare', auth, admin, createUser, async (req, res) => {
+  try {
+    console.log(req.body);
+    const { name, email, password, role } = req.body;
+    if (role !== 2 && role !== 1) {
+      return res.status(400).json({ message: "Ogiltig roll." });
+    }
+    res.status(201).json({ message: 'Användare skapad!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Misslyckades att skapa användare' });
+  }
 });
 
 export default userRouter;

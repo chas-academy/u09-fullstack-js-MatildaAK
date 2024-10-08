@@ -203,3 +203,20 @@ export const deleteUser = async (id: string) => {
     return { error: error };
   }
 };
+
+export const createUser = async (req: CustomRequest, res: Response) => {
+  const { userName, email, password, role } = req.body; // Ta emot data från frontend
+
+  if (!userName || !email || !password || !role) {
+      return res.status(400).json({ message: 'Alla fält är obligatoriska.' });
+  }
+
+  try {
+      const newUser = new User({ userName, email, password, role }); // Skapa en ny användare
+      await newUser.save(); // Spara användaren i databasen
+      res.status(201).json({ message: 'Användare skapad.', user: newUser });
+  } catch (error) {
+      console.error('Fel vid skapande av användare:', error);
+      res.status(500).json({ message: 'Något gick fel vid skapande av användare.' });
+  }
+};
