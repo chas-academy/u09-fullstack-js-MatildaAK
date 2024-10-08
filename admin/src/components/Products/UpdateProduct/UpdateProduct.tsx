@@ -2,6 +2,7 @@ import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { useAuth } from "../../Auth/Auth";
 
 interface UpdateProductModalProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   });
 
   const [selectedFileNames, setSelectedFileNames] = useState<string[]>([]);
+  const { isAuthenticated } = useAuth();
 
   Modal.setAppElement("#root");
 
@@ -114,9 +116,16 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
       });
     }
 
+    const token = localStorage.getItem("token");
+    console.log("Hämtar Token:", token);
+
     try {
       const response = await fetch(`http://localhost:4000/${formData.id}`, {
         method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          
+        },
         body: formDataToSend,
       });
 
@@ -124,9 +133,17 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
         throw new Error("Lyckades inte uppdatera produkt");
       }
 
+      if (!isAuthenticated) {
+      
+        console.error("Användare inte authoriserad");
+  
+        return;
+      }
+
       const updatedProduct = await response.json();
       onUpdate(updatedProduct);
       onRequestClose();
+      window.alert("Produkt är uppdaterad.");
     } catch (error) {
       console.error("Error updating product:", error);
     }

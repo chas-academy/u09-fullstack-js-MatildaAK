@@ -82,9 +82,15 @@ const AddProduct = () => {
       });
     }
 
+    const token = localStorage.getItem("token");
+
     fetch("http://localhost:4000/skapa", {
       method: "POST",
       body: formDataToSend,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      
     })
       .then((response) => response.json())
       .then((data) => {
@@ -94,7 +100,7 @@ const AddProduct = () => {
             "Woho, produkt är nu skapad och du dirigeras till förstasidan!"
           );
           console.log(productStatus);
-          navigate("/");
+          navigate("/admin");
         } else {
           setProductStatus("error");
           window.alert("Produkt är inte skapad. Var god försök igen.");
@@ -112,7 +118,7 @@ const AddProduct = () => {
     <div className="text-black dark:text-white">
       <a
         type="button"
-        href="/"
+        href="/admin"
         className="flex justify-center px-4 py-2 dark:bg-thirdDarkBlue mt-4 mx-24 rounded-md"
       >
         Avbryt
