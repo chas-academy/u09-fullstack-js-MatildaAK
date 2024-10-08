@@ -1,11 +1,30 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Admin from './pages/Admin/Admin.tsx';
 import AddProduct from './components/Products/AddProduct/AddProduct.tsx';
 import ListProduct from './components/Products/ListProduct/ListProduct.tsx';
+import Login from './pages/Login/Login.tsx';
+import { AuthProvider, useAuth } from './components/Auth/Auth.tsx';
+
+interface ProtectedRouteProps {
+  element: React.ReactElement;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
+  const { isAuthenticated, token } = useAuth();
+  // return isAuthenticated ? element : <Navigate to="/" />;
+  if (token === null) {
+    // Visa laddningsindikator tills token och autentiseringstillstånd har kontrollerats
+    return <div>Loading...</div>;
+  }
+  console.log("ProtectedRoute - isAuthenticated:", isAuthenticated);
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return element;
+};
 
 const router = createBrowserRouter([
   {
@@ -17,23 +36,28 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "",
-        element: <Admin />,
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/admin",
+        element: <ProtectedRoute element={<Admin />} />,
       },
       {
         path: "/skapa",
-        element: <AddProduct />
+        element: <ProtectedRoute element={<AddProduct />} />,
       },
       {
         path: "/produkter",
-        element: <ListProduct />
-      }
+        element: <ProtectedRoute element={<ListProduct />} />,
+      },      
     ],
   },
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <AuthProvider>
     <RouterProvider router={router} />
-  </StrictMode>,
+  </AuthProvider>,
 )
+

@@ -3,6 +3,7 @@ import CategorySelect from "./CategorySelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import UpdateProductModal from "../UpdateProduct/UpdateProduct";
+import { useAuth } from "../../Auth/Auth";
 
 interface IProduct {
   id: number;
@@ -22,6 +23,8 @@ const ProductList: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+  const { isAuthenticated } = useAuth();
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -85,18 +88,23 @@ const ProductList: React.FC = () => {
       return;
     }
 
+    if (!isAuthenticated) {
+      alert("Du måste vara inloggad för att ta bort en produkt.");
+      return;
+    }
+
     try {
       //   const id = localStorage.getItem("id");
-      //   const token = localStorage.getItem("token");
+      const { token } = useAuth();
       //   if (!id || !token) {
       //     throw new Error("User ID or token not found in local storage");
       //   }
 
       const response = await fetch(`http://localhost:4000/${id}`, {
         method: "DELETE",
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       console.log(response.status);
@@ -109,7 +117,7 @@ const ProductList: React.FC = () => {
         window.alert("Produkten har blivit borttaget.");
 
         localStorage.removeItem("id");
-        // localStorage.removeItem("token");
+        localStorage.removeItem("token");
       } else {
         throw new Error("Lyckades inte radera produkt");
       }
