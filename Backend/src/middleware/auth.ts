@@ -9,7 +9,7 @@ export interface CustomRequest extends Request {
 }
 
 interface DecodedToken {
-  id: string;
+  _id: string;
 }
 
 export const auth = async (
@@ -28,7 +28,7 @@ export const auth = async (
       process.env.JWT_SECRET as string
     ) as DecodedToken;
     const user = await User.findOne({
-      id: decoded.id,
+      _id: decoded._id,
       "tokens.token": token,
     });
 
@@ -52,7 +52,8 @@ export const admin = async (
   try {
     await auth(req, res, async () => {
       console.log("User from auth:", req.user);
-      if (req.user && req.user.role === 0) {
+      if (req.user && req.user.role === 2) {
+        console.log("Användaren är en admin.");
         next();
       } else {
         res.status(403).send({ error: "Åtkomst nekad. Användaren är inte en administratör." });
