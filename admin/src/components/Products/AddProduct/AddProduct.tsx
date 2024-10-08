@@ -86,11 +86,11 @@ const AddProduct = () => {
 
     fetch("http://localhost:4000/skapa", {
       method: "POST",
+      body: formDataToSend,
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formDataToSend),
+      
     })
       .then((response) => response.json())
       .then((data) => {
