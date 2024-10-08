@@ -14,16 +14,16 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const { isAuthenticated, token } = useAuth();
-  // return isAuthenticated ? element : <Navigate to="/" />;
-  if (token === null) {
-    // Visa laddningsindikator tills token och autentiseringstillstånd har kontrollerats
-    return <div>Loading...</div>;
-  }
+
   console.log("ProtectedRoute - isAuthenticated:", isAuthenticated);
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (isAuthenticated) {
+    return element;
   }
-  return element;
+  if (token !== null) {
+    return element;
+  }
+
+  return <Navigate to="/login" />;
 };
 
 const router = createBrowserRouter([
