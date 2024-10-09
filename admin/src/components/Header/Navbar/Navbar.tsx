@@ -12,7 +12,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
   const [userData, setUserData] = useState<IUser>({
     userName: "",
-    profileImage: "",
+    image: "",
     name: "",
     email: "",
     password: "",
