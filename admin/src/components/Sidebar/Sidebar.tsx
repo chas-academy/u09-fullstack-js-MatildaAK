@@ -1,4 +1,4 @@
-import { faFolderOpen, faFolderPlus, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFolderOpen, faFolderPlus, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
@@ -27,6 +27,12 @@ const Sidebar = () => {
         <button className="flex justify-center gap-2 rounded-md text-black dark:text-white bg-primaryLightGreen dark:bg-primaryDarkGreen font-medium px-2">
         <FontAwesomeIcon icon={faUserPlus} className="h-[55px] w-[55px] text-white" />
           <span>Skapa användare</span>
+        </button>
+      </Link>
+      <Link to={"/anvandare/alla"}>
+        <button className="flex justify-center gap-2 rounded-md text-black dark:text-white bg-primaryLightGreen dark:bg-primaryDarkGreen font-medium px-2">
+        <FontAwesomeIcon icon={faUsers} className="h-[55px] w-[55px] text-white" />
+          <span>Se alla användare</span>
         </button>
       </Link>
     </div>

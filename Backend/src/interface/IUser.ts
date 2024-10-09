@@ -10,7 +10,7 @@ export interface IUser extends Document {
   confirmPassword: string;
   tokens: { token: string }[];
   generateAuthToken: () => Promise<string>;
-  profileImage?: string;
+  image?: string;
   role: number;
 }
 

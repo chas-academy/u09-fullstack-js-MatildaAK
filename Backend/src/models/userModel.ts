@@ -12,7 +12,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     confirmPassword: { type: String, required: false },
     tokens: [{ token: { type: String, required: false } }],
     role: { type: Number, default: 1, enum: [1, 2] },
-    profileImage: { type: String, required: false },
+    image: { type: String, required: false },
   },
   {
     timestamps: true,

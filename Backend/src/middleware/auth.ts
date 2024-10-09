@@ -51,9 +51,7 @@ export const admin = async (
 ) => {
   try {
     await auth(req, res, async () => {
-      console.log("User from auth:", req.user);
       if (req.user && req.user.role === 2) {
-        console.log("Användaren är en admin.");
         next();
       } else {
         res.status(403).send({ error: "Åtkomst nekad. Användaren är inte en administratör." });

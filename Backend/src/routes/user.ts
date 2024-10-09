@@ -13,6 +13,7 @@ import {
 } from "../controllers/userController";
 import { IUser } from "../interface/IUser";
 import { auth, admin, CustomRequest } from "../middleware/auth";
+import User from "../models/userModel";
 
 const userRouter = Router();
 
@@ -23,7 +24,7 @@ userRouter.post("/registrera", async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    profileImage: req.body.profileImage,
+    image: req.body.image,
     role: req.body.role,
   };
   console.log(req.body);
@@ -102,11 +103,6 @@ userRouter.get("/:id", auth, async (req, res) => {
   res.status(200).json(user);
 });
 
-userRouter.get("/", auth, async (req, res) => {
-  const users = await getAllUsers();
-  res.status(200).json(users);
-});
-
 userRouter.put("/:id", auth, async (req, res) => {
   try {
     const id = req.params.id;
@@ -153,13 +149,24 @@ userRouter.delete("/:id", auth, admin, async (req, res) => {
 userRouter.post('/anvandare', auth, admin, createUser, async (req, res) => {
   try {
     console.log(req.body);
-    const { name, email, password, role } = req.body;
+    const { name, userName, email, password, role } = req.body;
     if (role !== 2 && role !== 1) {
       return res.status(400).json({ message: "Ogiltig roll." });
     }
     res.status(201).json({ message: 'Användare skapad!' });
   } catch (error) {
     res.status(500).json({ error: 'Misslyckades att skapa användare' });
+  }
+});
+
+userRouter.get("/anvandare/alla", auth, admin, async (req, res) => {
+  try {
+    const users = await User.find({});
+    console.log("Hämtade användare:", users);
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error("Misslyckades med att hämta användare:", error);
+    res.status(500).json({ error: "Fel vid hämtning av användare" });
   }
 });
 

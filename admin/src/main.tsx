@@ -8,6 +8,7 @@ import ListProduct from './components/Products/ListProduct/ListProduct.tsx';
 import Login from './pages/Login/Login.tsx';
 import { AuthProvider, useAuth } from './components/Auth/Auth.tsx';
 import CreateUser from './components/User/CreateUser.tsx';
+import UserList from './components/User/UserList/UserList.tsx';
 
 interface ProtectedRouteProps {
   element: React.ReactElement;
@@ -55,7 +56,11 @@ const router = createBrowserRouter([
       {
         path: "/anvandare",
         element: <ProtectedRoute element={<CreateUser />} />,
-      },     
+      },
+      {
+        path: "/anvandare/alla",
+        element: <ProtectedRoute element={<UserList />} />,
+      }, 
     ],
   },
 ]);

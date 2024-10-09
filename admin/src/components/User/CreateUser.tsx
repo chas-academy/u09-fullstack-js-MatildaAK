@@ -106,6 +106,7 @@ const CreateUser: React.FC = () => {
                 value={userData.role}
                 onChange={handleInputChange}
               >
+                <option value={0}>Välj roll</option>
                 <option value={1}>Användare</option>
                 <option value={2}>Admin</option>
               </select>

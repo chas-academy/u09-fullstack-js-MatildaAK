@@ -12,7 +12,7 @@ export const registerUser = async (user: Partial<IUser>) => {
       email,
       password,
       confirmPassword,
-      profileImage,
+      image,
     } = user;
     if (!userName || !email || !password || !confirmPassword) {
       return {
@@ -51,7 +51,7 @@ export const registerUser = async (user: Partial<IUser>) => {
       userName: userName.toLowerCase(),
       email: email.toLowerCase(),
       password,
-      profileImage,
+      image,
       role: user.role,
     });
 
@@ -107,32 +107,21 @@ export const logoutUser = async (req: any) => {
   }
 };
 
-// User Profile
-export const getAllUsers = async () =>
-  // req: Request, res: Response
-  {
-    try {
-      // const { search } = req.query;
-      // let query = {};
+export const getAllUsers = async () => {
+  try {
+    const users = await User.find({}, '-password');
+    console.log("Användare som hittades:", users);
 
-      // if (search) {
-      //   query = {
-      //     $or: [
-      //       { name: { $regex: search, $options: "i" } },
-      //       { email: { $regex: search, $options: "i" } },
-      //     ],
-      //   };
-      // }
-
-      const users = await User.find({});
-      return users;
-      // res.status(200).json(users);
-    } catch (error) {
-      // res.status(500).json({ error: error });
-
-      return { error: error };
+    if (!users || users.length === 0) {
+      return { users: [] };
     }
-  };
+
+    return { users };
+  } catch (error) {
+    console.error("Misslyckades med att hämta användare:", error);
+    return { error: "Misslyckades med att hämta användare" };
+  }
+};
 
 export const getUser = async (id: string) => {
   try {
@@ -212,8 +201,8 @@ export const createUser = async (req: CustomRequest, res: Response) => {
   }
 
   try {
-      const newUser = new User({ userName, email, password, role }); // Skapa en ny användare
-      await newUser.save(); // Spara användaren i databasen
+      const newUser = new User({ userName, email, password, role });
+      await newUser.save(); 
       res.status(201).json({ message: 'Användare skapad.', user: newUser });
   } catch (error) {
       console.error('Fel vid skapande av användare:', error);
