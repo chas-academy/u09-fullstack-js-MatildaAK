@@ -6,7 +6,14 @@ import { CustomRequest } from "middleware/auth";
 // Authentication
 export const registerUser = async (user: Partial<IUser>) => {
   try {
-    const { name, userName, email, password, confirmPassword, image } = user;
+    const {
+      name,
+      userName,
+      email,
+      password,
+      confirmPassword,
+      image,
+    } = user;
     if (!userName || !email || !password || !confirmPassword) {
       return {
         error: "Ange alla obligatoriska fält",
@@ -61,36 +68,33 @@ export const registerUser = async (user: Partial<IUser>) => {
   }
 };
 
-export const loginUser = async (user: {
-  identifier: string;
-  password: string;
-}) => {
-  const { identifier, password } = user;
-
-  if (!identifier || !password) {
-    console.log("Identifier eller lösenord saknas");
-    return { error: "Ange både användarnamn/e-post och lösenord" };
-  }
-
-  try {
-    // console.log("Försöker logga in med identifier: ", identifier);
-    // Vi försöker hitta användaren antingen via email eller användarnamn
-    const existingUser = await User.findByCredentials(identifier, password);
-
-    if (!existingUser) {
-      // console.log("Ingen användare hittad med dessa uppgifter");
-      return { error: "Invalid credentials" };
+export const loginUser = async (user: { identifier: string, password: string }) => {
+    const { identifier, password } = user;
+  
+    if (!identifier || !password) {
+        console.log("Identifier eller lösenord saknas");
+      return { error: "Ange både användarnamn/e-post och lösenord" };
     }
-    // console.log("Användare inloggad: ", existingUser)
-    const token = await existingUser.generateAuthToken();
-    return { user: existingUser, token };
-  } catch (error: any) {
-    // console.error("Fel i loginUser-funktionen", error);
-    // Se till att felmeddelandet returneras ordentligt
-    return { error: "Något gick fel under inloggningen" };
-  }
-};
-
+  
+    try {
+        // console.log("Försöker logga in med identifier: ", identifier);
+      // Vi försöker hitta användaren antingen via email eller användarnamn
+      const existingUser = await User.findByCredentials(identifier, password);
+      
+      if (!existingUser) {
+        // console.log("Ingen användare hittad med dessa uppgifter");
+        return { error: "Invalid credentials" };
+      }
+      // console.log("Användare inloggad: ", existingUser)
+      const token = await existingUser.generateAuthToken();
+      return { user: existingUser, token };
+    } catch (error: any) {
+        // console.error("Fel i loginUser-funktionen", error);
+      // Se till att felmeddelandet returneras ordentligt
+      return { error: "Något gick fel under inloggningen" };
+    }
+  };
+  
 export const logoutUser = async (req: any) => {
   try {
     req.user.tokens = req.user.tokens.filter((token: any) => {
@@ -105,7 +109,7 @@ export const logoutUser = async (req: any) => {
 
 export const getAllUsers = async () => {
   try {
-    const users = await User.find({}, "-password");
+    const users = await User.find({}, '-password');
     console.log("Användare som hittades:", users);
 
     if (!users || users.length === 0) {
@@ -162,9 +166,11 @@ export const updateUser = async (id: string, data: Partial<IUser>) => {
 export const deleteOwnAccount = async (req: CustomRequest, res: Response) => {
   try {
     if (!req.user) {
-      return res.status(401).json({
-        message: "Autentiseringen misslyckades. Användaren hittades inte.",
-      });
+      return res
+        .status(401)
+        .json({
+          message: "Autentiseringen misslyckades. Användaren hittades inte.",
+        });
     }
 
     const user = await User.findById(req.user.id);
@@ -179,38 +185,34 @@ export const deleteOwnAccount = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (req: CustomRequest, res: Response) => {
+  const id = req.params.id;
+
   try {
-    return await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: "Användare hittades inte." });
+    }
+    return res.status(200).json({ message: "Användare borttagen." });
   } catch (error) {
-    return { error: error };
+    console.error("Fel vid radering av användare:", error);
+    return res.status(500).json({ message: "Något gick fel." });
   }
-};
+}
 
 export const createUser = async (req: CustomRequest, res: Response) => {
   const { userName, email, password, role } = req.body; // Ta emot data från frontend
 
   if (!userName || !email || !password || !role) {
-    return res.status(400).json({ message: "Alla fält är obligatoriska." });
+      return res.status(400).json({ message: 'Alla fält är obligatoriska.' });
   }
 
   try {
-    const newUser = new User({
-      userName: userName.toLowerCase(),
-      email: email.toLowerCase(),
-      password,
-      role,
-    });
-    await newUser.save();
-    const token = await newUser.generateAuthToken();
-
-    res
-      .status(201)
-      .json({ message: "Användare skapad.", user: newUser, token });
+      const newUser = new User({ userName, email, password, role });
+      await newUser.save(); 
+      res.status(201).json({ message: 'Användare skapad.', user: newUser });
   } catch (error) {
-    console.error("Fel vid skapande av användare:", error);
-    res
-      .status(500)
-      .json({ message: "Något gick fel vid skapande av användare." });
+      console.error('Fel vid skapande av användare:', error);
+      res.status(500).json({ message: 'Något gick fel vid skapande av användare.' });
   }
 };

@@ -140,12 +140,6 @@ userRouter.get("/admin/:id", auth, admin, async (req, res) => {
   }
 });
 
-userRouter.delete("/:id", auth, admin, async (req, res) => {
-  const id = req.params.id;
-  const deletedUser = await deleteUser(id);
-  res.status(200).json({ message: "Användare raderad", deletedUser });
-});
-
 userRouter.post('/anvandare', auth, admin, createUser, async (req, res) => {
   try {
     console.log(req.body);
@@ -169,5 +163,7 @@ userRouter.get("/anvandare/alla", auth, admin, async (req, res) => {
     res.status(500).json({ error: "Fel vid hämtning av användare" });
   }
 });
+
+userRouter.delete("/anvandare/:id", auth, admin, deleteUser);
 
 export default userRouter;

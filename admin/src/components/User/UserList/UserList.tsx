@@ -1,3 +1,5 @@
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 interface IUser {
@@ -51,31 +53,82 @@ const UserList: React.FC = () => {
   if (error) {
     return <div className="text-white">Fel: {error}</div>;
   }
+
+  const removeFromList = async (id: string) => {
+    const confirmed = window.confirm(
+      "Är du säker på att du vill radera användaren?"
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      //   const id = localStorage.getItem("id");
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`http://localhost:4000/anvandare/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.status);
+
+      if (response.ok) {
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user._id !== id)
+        );
+
+        window.alert("Användare har blivit borttaget.");
+
+        localStorage.removeItem("id");
+        localStorage.removeItem("token");
+      } else {
+        throw new Error("Lyckades inte radera användare");
+      }
+    } catch (error) {
+      console.error("Update user data error:", error);
+    }
+  };
+
   return (
-    
-    <div className="user-list text-black dark:text-white my-4 flex justify-start flex-col">
-        <div className="m-2">Roll 1 = Användare <br /> Roll 2 = Admin</div>
+    <div className="text-black dark:text-white my-4 flex justify-start flex-col">
+      <div className="m-2">
+        Roll 1 = Användare <br /> Roll 2 = Admin
+      </div>
       {Array.isArray(users) && users.length > 0 ? (
-        users.map((user) => (
-          <table key={user._id} className="border-b-2 border-black dark:border-white">
-            <thead>
-              <tr>
-                <th>Namn</th>
-                <th>Användarnamn</th>
-                <th>Email</th>
-                <th>Roll</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              <tr>
+        <table>
+          <thead>
+            <tr>
+              <th>Namn</th>
+              <th>Användarnamn</th>
+              <th>Email</th>
+              <th>Roll</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody className="text-center">
+            {users.map((user) => (
+              <tr
+                key={user._id}
+                className="border-b-2 border-black dark:border-white"
+              >
                 <td>{user.name}</td>
                 <td>{user.userName}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
+                <td>
+                  <FontAwesomeIcon
+                    icon={faTrashCan}
+                    onClick={() => removeFromList(user._id)}
+                    className="pl-4 text-error cursor-pointer"
+                  />
+                </td>
               </tr>
-            </tbody>
-          </table>
-        ))
+            ))}
+          </tbody>
+        </table>
       ) : (
         <li>Inga användare hittades</li>
       )}
