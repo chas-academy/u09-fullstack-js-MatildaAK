@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx';
 import './index.css';
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import Admin from './pages/Admin/Admin.tsx';
+// import Admin from './pages/Admin/Admin.tsx';
 import AddProduct from './components/Products/AddProduct/AddProduct.tsx';
 import ListProduct from './components/Products/ListProduct/ListProduct.tsx';
 import Login from './pages/Login/Login.tsx';
@@ -41,10 +41,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
-      {
-        path: "/admin",
-        element: <ProtectedRoute element={<Admin />} />,
-      },
+      // {
+      //   path: "/admin",
+      //   element: <ProtectedRoute element={<Admin />} />,
+      // },
       {
         path: "/skapa",
         element: <ProtectedRoute element={<AddProduct />} />,
