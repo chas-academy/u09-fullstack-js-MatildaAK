@@ -7,7 +7,7 @@ import AddProduct from './components/Products/AddProduct/AddProduct.tsx';
 import ListProduct from './components/Products/ListProduct/ListProduct.tsx';
 import Login from './pages/Login/Login.tsx';
 import { AuthProvider, useAuth } from './components/Auth/Auth.tsx';
-import CreateUser from './components/User/CreateUser.tsx';
+import CreateUser from './components/User/CreateUser/CreateUser.tsx';
 import UserList from './components/User/UserList/UserList.tsx';
 
 interface ProtectedRouteProps {
