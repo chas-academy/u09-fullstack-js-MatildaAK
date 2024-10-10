@@ -2,6 +2,7 @@ import { IUser } from "../interface/IUser";
 import User from "../models/userModel";
 import { Request, Response } from "express";
 import { CustomRequest } from "middleware/auth";
+import bcrypt from "bcryptjs";
 
 const read = async (id: string) => {
   if (!id) {
@@ -11,34 +12,30 @@ const read = async (id: string) => {
   try {
     const user = await User.findById(id);
 
-    if(!user) {
+    if (!user) {
       return null;
     }
     return user;
   } catch (error) {
     throw new Error("Kunde inte hitta användare");
   }
-}
+};
 
 const update = async (id: string, data: IUser) => {
   try {
-    return await User.findByIdAndUpdate(id, data, { new: true });
+    return await User.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
   } catch (error) {
     throw new Error("Kunde inte uppdatera användare");
   }
-}
+};
 
 // Authentication
 export const registerUser = async (user: Partial<IUser>) => {
   try {
-    const {
-      name,
-      userName,
-      email,
-      password,
-      confirmPassword,
-      image,
-    } = user;
+    const { name, userName, email, password, confirmPassword, image } = user;
     if (!userName || !email || !password || !confirmPassword) {
       return {
         error: "Ange alla obligatoriska fält",
@@ -93,33 +90,36 @@ export const registerUser = async (user: Partial<IUser>) => {
   }
 };
 
-export const loginUser = async (user: { identifier: string, password: string }) => {
-    const { identifier, password } = user;
-  
-    if (!identifier || !password) {
-        console.log("Identifier eller lösenord saknas");
-      return { error: "Ange både användarnamn/e-post och lösenord" };
+export const loginUser = async (user: {
+  identifier: string;
+  password: string;
+}) => {
+  const { identifier, password } = user;
+
+  if (!identifier || !password) {
+    console.log("Identifier eller lösenord saknas");
+    return { error: "Ange både användarnamn/e-post och lösenord" };
+  }
+
+  try {
+    // console.log("Försöker logga in med identifier: ", identifier);
+    // Vi försöker hitta användaren antingen via email eller användarnamn
+    const existingUser = await User.findByCredentials(identifier, password);
+
+    if (!existingUser) {
+      // console.log("Ingen användare hittad med dessa uppgifter");
+      return { error: "Invalid credentials" };
     }
-  
-    try {
-        // console.log("Försöker logga in med identifier: ", identifier);
-      // Vi försöker hitta användaren antingen via email eller användarnamn
-      const existingUser = await User.findByCredentials(identifier, password);
-      
-      if (!existingUser) {
-        // console.log("Ingen användare hittad med dessa uppgifter");
-        return { error: "Invalid credentials" };
-      }
-      // console.log("Användare inloggad: ", existingUser)
-      const token = await existingUser.generateAuthToken();
-      return { user: existingUser, token };
-    } catch (error: any) {
-        // console.error("Fel i loginUser-funktionen", error);
-      // Se till att felmeddelandet returneras ordentligt
-      return { error: "Något gick fel under inloggningen" };
-    }
-  };
-  
+    // console.log("Användare inloggad: ", existingUser)
+    const token = await existingUser.generateAuthToken();
+    return { user: existingUser, token };
+  } catch (error: any) {
+    // console.error("Fel i loginUser-funktionen", error);
+    // Se till att felmeddelandet returneras ordentligt
+    return { error: "Något gick fel under inloggningen" };
+  }
+};
+
 export const logoutUser = async (req: any) => {
   try {
     req.user.tokens = req.user.tokens.filter((token: any) => {
@@ -134,7 +134,7 @@ export const logoutUser = async (req: any) => {
 
 export const getAllUsers = async () => {
   try {
-    const users = await User.find({}, '-password');
+    const users = await User.find({}, "-password");
     console.log("Användare som hittades:", users);
 
     if (!users || users.length === 0) {
@@ -177,51 +177,57 @@ export const searchUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = async ( req: CustomRequest, res: Response) => {
- try {
-  const id = req.params.id;
-  const updatedUserData = req.body;
+export const updateUser = async (req: CustomRequest, res: Response) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
 
-  let base64Images: string[] = [];
-    
-  if (req.files && Array.isArray(req.files)) {
-    base64Images = req.files.map((file: any) => {
-      return file.buffer.toString('base64');
+    let base64Images: string[] = [];
+
+    if (req.files && Array.isArray(req.files)) {
+      base64Images = req.files.map((file: any) => {
+        return file.buffer.toString("base64");
+      });
+    }
+
+    if (base64Images.length > 0) {
+      updatedUserData.image = base64Images[0];
+    }
+
+    const existingUser = await read(id);
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "Användare hittades inte" });
+    }
+
+    const hashedPassword = await bcrypt.hash(updatedUserData.password, 8);
+    updatedUserData.password = hashedPassword;
+
+    // if (
+    //   updatedUserData.password &&
+    //   updatedUserData.password !== existingUser.password
+    // ) {
+    //   updatedUserData.password = updatedUserData.password;
+    // } else {
+    //   delete updatedUserData.password;
+    // }
+
+    const updatedUser = await update(id, updatedUserData);
+
+    res.status(200).json({ message: "Lyckad uppdatering", updatedUser });
+  } catch (error) {
+    res.status(500).json({
+      message: "Opps! Något hände vid försök av uppdatering av användare",
     });
   }
-
-  if (base64Images.length > 0) {
-    updatedUserData.image = base64Images[0];
-  }
-
-  const existingUser = await read(id);
-
-  if (!existingUser) {
-    return res.status(404).json({ message: "Användare hittades inte"});
-  }
-
-  const updatedUser = await update(id, updatedUserData);
-
-  res.status(200).json({ message: "Lyckad uppdatering", updatedUser });
- } catch (error) {
-  res
-  .status(500)
-  .json({
-    message: "Opps! Något hände vid försök av uppdatering av användare",
-  });
- }
-  
-}
-
+};
 
 export const deleteOwnAccount = async (req: CustomRequest, res: Response) => {
   try {
     if (!req.user) {
-      return res
-        .status(401)
-        .json({
-          message: "Autentiseringen misslyckades. Användaren hittades inte.",
-        });
+      return res.status(401).json({
+        message: "Autentiseringen misslyckades. Användaren hittades inte.",
+      });
     }
 
     const user = await User.findById(req.user.id);
@@ -249,21 +255,23 @@ export const deleteUser = async (req: CustomRequest, res: Response) => {
     console.error("Fel vid radering av användare:", error);
     return res.status(500).json({ message: "Något gick fel." });
   }
-}
+};
 
 export const createUser = async (req: CustomRequest, res: Response) => {
-  const { userName, email, password, role } = req.body; // Ta emot data från frontend
+  const { name, userName, email, password, role } = req.body; // Ta emot data från frontend
 
-  if (!userName || !email || !password || !role) {
-      return res.status(400).json({ message: 'Alla fält är obligatoriska.' });
+  if (!name || !userName || !email || !password || !role) {
+    return res.status(400).json({ message: "Alla fält är obligatoriska." });
   }
 
   try {
-      const newUser = new User({ userName, email, password, role });
-      await newUser.save(); 
-      res.status(201).json({ message: 'Användare skapad.', user: newUser });
+    const newUser = new User({ name, userName, email, password, role });
+    await newUser.save();
+    res.status(201).json({ message: "Användare skapad.", user: newUser });
   } catch (error) {
-      console.error('Fel vid skapande av användare:', error);
-      res.status(500).json({ message: 'Något gick fel vid skapande av användare.' });
+    console.error("Fel vid skapande av användare:", error);
+    res
+      .status(500)
+      .json({ message: "Något gick fel vid skapande av användare." });
   }
 };
