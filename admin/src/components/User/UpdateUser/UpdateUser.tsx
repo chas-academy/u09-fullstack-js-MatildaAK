@@ -160,7 +160,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({
             <div>
               <h4 className="font-bold">Email: </h4>
               <input
-                type="text"
+                type="email"
                 name="email"
                 className="text-black bg-primaryLightGreen"
                 value={userData.email || ""}
@@ -170,7 +170,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({
             <div>
               <h4 className="font-bold">Nytt lösenord: </h4>
               <input
-                type="text"
+                type="password"
                 name="password"
                 className="text-black bg-primaryLightGreen"
                 value={userData.password || ""}
