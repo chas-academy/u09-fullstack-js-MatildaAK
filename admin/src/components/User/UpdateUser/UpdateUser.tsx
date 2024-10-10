@@ -7,6 +7,7 @@ import {
   faUserTie,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import BASE_URL from "../../../config";
 
 interface UpdateUserProps {
   isOpen: boolean;
@@ -100,7 +101,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({
 
     try {
       const response = await fetch(
-        `http://localhost:4000/anvandare/${userData._id}`,
+        `${BASE_URL}/anvandare/${userData._id}`,
         {
           method: "PUT",
           headers: {

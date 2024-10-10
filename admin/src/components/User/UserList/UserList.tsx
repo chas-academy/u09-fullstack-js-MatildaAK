@@ -1,11 +1,11 @@
 import {
-  faPenToSquare,
   faTrashCan,
   faUserPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import UpdateUser from "../UpdateUser/UpdateUser";
+import BASE_URL from "../../../config";
 
 interface IUser {
   _id: string;
@@ -28,7 +28,7 @@ const UserList: React.FC = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:4000/anvandare/alla", {
+        const response = await fetch(`${BASE_URL}/anvandare/alla`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -93,7 +93,7 @@ const UserList: React.FC = () => {
       //   const id = localStorage.getItem("id");
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`http://localhost:4000/anvandare/${id}`, {
+      const response = await fetch(`${BASE_URL}/anvandare/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

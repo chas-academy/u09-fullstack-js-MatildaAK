@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useAuth } from "../../Auth/Auth";
+import BASE_URL from "../../../config";
 
 interface UpdateProductModalProps {
   isOpen: boolean;
@@ -120,7 +121,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     console.log("Hämtar Token:", token);
 
     try {
-      const response = await fetch(`http://localhost:4000/${formData.id}`, {
+      const response = await fetch(`${BASE_URL}/${formData.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
