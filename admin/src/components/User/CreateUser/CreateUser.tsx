@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const CreateUser: React.FC = () => {
   const [userData, setUserData] = useState({
+    name: "",
     userName: "",
     email: "",
     password: "",
@@ -49,7 +50,7 @@ const CreateUser: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         window.alert("Användare skapad framgångsrikt!");
-        setUserData({ userName: "", email: "", password: "", role: 0 });
+        setUserData({ name: "", userName: "", email: "", password: "", role: 0 });
         navigate("/admin");
       } else {
         setStatusMessage(data.message || "Fel vid skapande av användare.");
@@ -66,6 +67,17 @@ const CreateUser: React.FC = () => {
         <div className="flex justify-center mt-4 border-4 border-primaryDarkGreen rounded-sm mx-16 py-4">
           <div>
           <h2>Skapa Användare</h2>
+          <div className="flex mt-4 gap-x-8">
+              <input
+                type="text"
+                name="name"
+                className="text-black"
+                value={userData.name}
+                onChange={handleInputChange}
+                placeholder="Namn"
+                required
+              />
+            </div>
             <div className="flex mt-4 gap-x-8">
               <input
                 type="text"

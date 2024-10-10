@@ -3,6 +3,31 @@ import User from "../models/userModel";
 import { Request, Response } from "express";
 import { CustomRequest } from "middleware/auth";
 
+const read = async (id: string) => {
+  if (!id) {
+    throw new Error("Ett giltigt ID måste anges.");
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if(!user) {
+      return null;
+    }
+    return user;
+  } catch (error) {
+    throw new Error("Kunde inte hitta användare");
+  }
+}
+
+const update = async (id: string, data: IUser) => {
+  try {
+    return await User.findByIdAndUpdate(id, data, { new: true });
+  } catch (error) {
+    throw new Error("Kunde inte uppdatera användare");
+  }
+}
+
 // Authentication
 export const registerUser = async (user: Partial<IUser>) => {
   try {
@@ -152,16 +177,42 @@ export const searchUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = async (id: string, data: Partial<IUser>) => {
-  try {
-    return await User.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
+export const updateUser = async ( req: CustomRequest, res: Response) => {
+ try {
+  const id = req.params.id;
+  const updatedUserData = req.body;
+
+  let base64Images: string[] = [];
+    
+  if (req.files && Array.isArray(req.files)) {
+    base64Images = req.files.map((file: any) => {
+      return file.buffer.toString('base64');
     });
-  } catch (error) {
-    return { error: error };
   }
-};
+
+  if (base64Images.length > 0) {
+    updatedUserData.image = base64Images[0];
+  }
+
+  const existingUser = await read(id);
+
+  if (!existingUser) {
+    return res.status(404).json({ message: "Användare hittades inte"});
+  }
+
+  const updatedUser = await update(id, updatedUserData);
+
+  res.status(200).json({ message: "Lyckad uppdatering", updatedUser });
+ } catch (error) {
+  res
+  .status(500)
+  .json({
+    message: "Opps! Något hände vid försök av uppdatering av användare",
+  });
+ }
+  
+}
+
 
 export const deleteOwnAccount = async (req: CustomRequest, res: Response) => {
   try {

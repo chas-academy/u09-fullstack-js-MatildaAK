@@ -1,11 +1,17 @@
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faTrashCan,
+  faUserPen,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import UpdateUser from "../UpdateUser/UpdateUser";
 
 interface IUser {
   _id: string;
   name?: string;
   userName: string;
+  password: string;
   email: string;
   image?: string;
   role: number;
@@ -15,6 +21,8 @@ const UserList: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -54,6 +62,25 @@ const UserList: React.FC = () => {
     return <div className="text-white">Fel: {error}</div>;
   }
 
+  const openModal = (user: IUser) => {
+    setSelectedUser(user);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedUser(null);
+  };
+
+  const handleUpdate = (updatedUser: IUser) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === updatedUser._id ? { ...user, ...updatedUser } : user
+      )
+    );
+    closeModal();
+  };
+
   const removeFromList = async (id: string) => {
     const confirmed = window.confirm(
       "Är du säker på att du vill radera användaren?"
@@ -76,9 +103,7 @@ const UserList: React.FC = () => {
       console.log(response.status);
 
       if (response.ok) {
-        setUsers((prevUsers) =>
-          prevUsers.filter((user) => user._id !== id)
-        );
+        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
 
         window.alert("Användare har blivit borttaget.");
 
@@ -120,6 +145,13 @@ const UserList: React.FC = () => {
                 <td>{user.role}</td>
                 <td>
                   <FontAwesomeIcon
+                    icon={faUserPen}
+                    onClick={() => openModal(user)}
+                    className="cursor-pointer"
+                  />
+                </td>
+                <td>
+                  <FontAwesomeIcon
                     icon={faTrashCan}
                     onClick={() => removeFromList(user._id)}
                     className="pl-4 text-error cursor-pointer"
@@ -131,6 +163,14 @@ const UserList: React.FC = () => {
         </table>
       ) : (
         <li>Inga användare hittades</li>
+      )}
+      {selectedUser && (
+        <UpdateUser
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          onUpdate={handleUpdate}
+          user={selectedUser}
+        />
       )}
     </div>
   );
