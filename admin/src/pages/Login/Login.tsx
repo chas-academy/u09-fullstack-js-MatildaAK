@@ -53,7 +53,7 @@ const LoginForm: React.FC = () => {
       setPassword("");
 
       setSuccess("Inloggning lyckades!");
-      navigate("/admin");
+      navigate("/");
       setError(null);
       console.log("Inloggad användare:", data);
 
