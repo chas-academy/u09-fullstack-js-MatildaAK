@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import BASE_URL from "../../config";
 
 interface ContextType {
   onLogin: (identifier: string, userId: string, token: string) => void;
@@ -19,7 +20,7 @@ const LoginForm: React.FC = () => {
     console.log("Logging in", { loginIdentifier, password });
 
     try {
-      const response = await fetch("http://localhost:4000/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

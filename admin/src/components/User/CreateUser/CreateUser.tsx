@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../../../config";
 
 const CreateUser: React.FC = () => {
   const [userData, setUserData] = useState({
@@ -37,7 +38,7 @@ const CreateUser: React.FC = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:4000/anvandare", {
+      const response = await fetch(`${BASE_URL}/anvandare`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

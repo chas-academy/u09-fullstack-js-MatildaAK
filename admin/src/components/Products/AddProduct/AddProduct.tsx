@@ -2,6 +2,7 @@ import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../../../config";
 
 interface IFormData {
   title: string;
@@ -84,7 +85,7 @@ const AddProduct = () => {
 
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:4000/skapa", {
+    fetch(`${BASE_URL}/skapa`, {
       method: "POST",
       body: formDataToSend,
       headers: {

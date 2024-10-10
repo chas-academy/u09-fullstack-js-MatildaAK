@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import UpdateProductModal from "../UpdateProduct/UpdateProduct";
 import { useAuth } from "../../Auth/Auth";
+import BASE_URL from "../../../config";
 
 interface IProduct {
   id: number;
@@ -29,7 +30,7 @@ const ProductList: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/produkter");
+        const response = await fetch(`${BASE_URL}/produkter`);
         if (!response.ok) {
           throw new Error("Något gick fel vid hämtning av produkterna");
         }
@@ -100,7 +101,7 @@ const ProductList: React.FC = () => {
       //     throw new Error("User ID or token not found in local storage");
       //   }
 
-      const response = await fetch(`http://localhost:4000/${id}`, {
+      const response = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

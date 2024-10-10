@@ -3,6 +3,7 @@ import logo from "../../../../public/designer.svg";
 import profileImg from "../../../assets/icon.svg";
 import { useEffect, useRef, useState } from "react";
 import { IUser } from "../../../interface/IUser";
+import BASE_URL from "../../../config";
 
 interface NavbarProps {
   isAuthenticated: boolean;
@@ -36,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
           throw new Error("User ID or token not found");
         }
 
-        const response = await fetch(`http://localhost:4000/admin/${id}`, {
+        const response = await fetch(`${BASE_URL}/admin/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
