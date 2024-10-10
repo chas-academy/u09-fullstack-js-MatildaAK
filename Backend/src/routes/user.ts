@@ -14,6 +14,7 @@ import {
 import { IUser } from "../interface/IUser";
 import { auth, admin, CustomRequest } from "../middleware/auth";
 import User from "../models/userModel";
+import { uploadMiddleware } from "../middleware/multer";
 
 const userRouter = Router();
 
@@ -103,23 +104,7 @@ userRouter.get("/:id", auth, async (req, res) => {
   res.status(200).json(user);
 });
 
-userRouter.put("/:id", auth, async (req, res) => {
-  try {
-    const id = req.params.id;
-    let userData = req.body;
-
-    if (req.file) {
-      userData.profileImage = req.file.filename;
-    }
-
-    const updatedUser = await updateUser(id, userData);
-
-    res.status(200).json({ message: "Uppdateringen lyckades", updatedUser });
-  } catch (error) {
-    console.error("Fel vid uppdatering av användare:", error);
-    res.status(500).json({ message: "Internt serverfel" });
-  }
-});
+userRouter.put("/anvandare/:id", auth, uploadMiddleware, updateUser);
 
 userRouter.delete("/:userName", auth, deleteOwnAccount);
 
