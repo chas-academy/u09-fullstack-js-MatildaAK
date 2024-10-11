@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ShopContext } from '../../Context/ShopContext';
-import Item from '../PopularItems/Item';
+import Item from './PopularItems/Item';
 
 
 
