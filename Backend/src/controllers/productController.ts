@@ -177,3 +177,20 @@ export const updateProduct = async (req: any, res: any) => {
       });
   }
 };
+
+export const newCollections = async (req: any, res: any) => {
+  try {
+
+    const products = await Product.find({}).sort({ id: -1 }).limit(9);
+    
+    if (products.length === 0) {
+      return res.status(404).json({ success: false, message: "Inga produkter hittades!" });
+    }
+
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    console.error("Fel vid hämtning av produkter:", error);
+    res.status(500).json({ message: "Inga produkter hittades!" });
+  }
+};
+
