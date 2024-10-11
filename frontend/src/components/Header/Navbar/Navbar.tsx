@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faUser, faUserTie } from '@fortawesome/free-solid-svg-icons'
 import icon from '../../../assets/images/icon.svg'
