@@ -193,4 +193,19 @@ export const newCollections = async (req: any, res: any) => {
     res.status(500).json({ message: "Inga produkter hittades!" });
   }
 };
+export const popularProducts = async (req: any, res: any) => {
+  try {
+
+    const products = await Product.find({ category: "book"}).sort({ id: -1 }).limit(4);
+    
+    if (products.length === 0) {
+      return res.status(404).json({ success: false, message: "Inga produkter hittades!" });
+    }
+
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    console.error("Fel vid hämtning av produkter:", error);
+    res.status(500).json({ message: "Inga produkter hittades!" });
+  }
+};
 
