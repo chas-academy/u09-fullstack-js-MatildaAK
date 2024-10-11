@@ -1,11 +1,11 @@
-import POPULAR from '../../assets/popular'
+import POPULAR from '../../../assets/popular'
 import Item from './Item'
 
 const Popular = () => {
     return (
         <section>
             <div>
-                <h3>Populära Böcker</h3>
+                <h3>Populära produkter</h3>
                 <hr />
                 {/* container */}
                 <div className='grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 xl:grid-cols-5'>

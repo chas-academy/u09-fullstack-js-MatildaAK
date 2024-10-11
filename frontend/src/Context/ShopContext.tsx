@@ -49,11 +49,6 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart())
     const [all_products, setAll_products] = useState<Product[]>([])
 
-    // useEffect(() => {
-    //     fetch(`${BASE_URL}/produkter`)
-    //         .then((respons) => respons.json())
-    //         .then((data) => setAll_products(data))
-    // }, [])
     useEffect(() => {
         const fetchProducts = async () => {
           try {

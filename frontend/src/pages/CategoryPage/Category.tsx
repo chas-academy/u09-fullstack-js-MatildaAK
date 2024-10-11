@@ -2,7 +2,7 @@
 
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Item from '../../components/PopularItems/Item'
+import Item from '../../components/Product/PopularItems/Item'
 import Button from '../../components/Button/Button'
 import { useContext } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
@@ -14,8 +14,6 @@ type CategoryProps = {
 
 const Category: React.FC<CategoryProps> = ({ category, banner }) => {
     const { all_products } = useContext(ShopContext)
-
-    console.log(all_products)
 
     return (
         <section>
@@ -32,6 +30,7 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
                     Filter <FontAwesomeIcon icon={faChevronDown} />{' '}
                 </div>
             </div>
+
             <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
                 {Array.isArray(all_products) && all_products.length > 0 ? (
                     all_products.filter((item) => item.category === category).length > 0 ? (
