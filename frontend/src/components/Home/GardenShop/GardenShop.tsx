@@ -7,7 +7,7 @@ const GardenShop = () => {
   const navigate = useNavigate();
 
   const goToGarden = () => {
-    navigate("/tradgard");
+    navigate("/garden");
   };
 
   return (

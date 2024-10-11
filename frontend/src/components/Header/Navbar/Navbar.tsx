@@ -100,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Hem
                     </a>
                     <a
-                        href="/tradgard"
+                        href="/garden"
                         className="text-black dark:text-white hover:text-primaryLightGreen"
                     >
                         Handelsträdgård
@@ -112,7 +112,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Café
                     </a>
                     <a
-                        href="/bocker"
+                        href="/book"
                         className="text-black dark:text-white hover:text-primaryLightGreen"
                     >
                         Bokhandel
@@ -244,31 +244,31 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Café
                     </a>
                     <a
-                        href="/tradgard"
+                        href="/garden"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Handelsträdgård
                     </a>
                     <a
-                        href="/bocker"
+                        href="/book"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Bokhandel
                     </a>
                     <a
-                        href="/about"
+                        href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Om MJs
                     </a>
                     <a
-                        href="/user"
+                        href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Profil
                     </a>
                     <a
-                        href="/faq"
+                        href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         FAQ

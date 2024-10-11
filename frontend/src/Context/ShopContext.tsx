@@ -49,11 +49,27 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart())
     const [all_products, setAll_products] = useState<Product[]>([])
 
+    // useEffect(() => {
+    //     fetch(`${BASE_URL}/produkter`)
+    //         .then((respons) => respons.json())
+    //         .then((data) => setAll_products(data))
+    // }, [])
     useEffect(() => {
-        fetch(`${BASE_URL}/produkter`)
-            .then((respons) => respons.json())
-            .then((data) => setAll_products(data))
-    }, [])
+        const fetchProducts = async () => {
+          try {
+            const response = await fetch(`${BASE_URL}/produkter`);
+            if (!response.ok) {
+              throw new Error("Något gick fel vid hämtning av produkterna");
+            }
+            const data = await response.json();
+            setAll_products(data.products || []);
+          } catch (error: any) {
+            console.error('Error fetching products:', error);
+          }
+        };
+    
+        fetchProducts();
+      }, []);
 
     const addToCart = (itemId: number, quantity: number) => {
         setCartItems((prev: { [key: number]: number }) => ({
