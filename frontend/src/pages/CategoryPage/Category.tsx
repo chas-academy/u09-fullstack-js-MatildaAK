@@ -2,9 +2,10 @@
 
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import all_products from '../../assets/all_products'
 import Item from '../../components/PopularItems/Item'
 import Button from '../../components/Button/Button'
+import { useContext } from 'react'
+import { ShopContext } from '../../Context/ShopContext'
 
 type CategoryProps = {
     category: string
@@ -12,6 +13,9 @@ type CategoryProps = {
 }
 
 const Category: React.FC<CategoryProps> = ({ category, banner }) => {
+
+    const {all_products} = useContext(ShopContext);
+
     return (
         <section>
             <div>

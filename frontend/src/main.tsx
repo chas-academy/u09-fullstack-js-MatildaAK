@@ -50,19 +50,19 @@ const router = createBrowserRouter([
         element: <CoffeePage />,
       },
       {
-        path: "garden/product/:id",
+        path: "tradgard/:id",
         element: <Product />,
       },
       {
-        path: "garden",
+        path: "tradgard",
         element: <Category category="garden" banner={bannergarden} />,
       },
       {
-        path: "book",
+        path: "bocker",
         element: <Category category="book" banner={bannerbook} />,
       },
       {
-        path: "book/product/:id",
+        path: "bocker/:id",
         element: <Product />,
       },
       {

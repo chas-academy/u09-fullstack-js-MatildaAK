@@ -100,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Hem
                     </a>
                     <a
-                        href="/garden"
+                        href="/tradgard"
                         className="text-black dark:text-white hover:text-primaryLightGreen"
                     >
                         Handelsträdgård
@@ -112,7 +112,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Café
                     </a>
                     <a
-                        href="/book"
+                        href="/bocker"
                         className="text-black dark:text-white hover:text-primaryLightGreen"
                     >
                         Bokhandel
@@ -244,13 +244,13 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         Café
                     </a>
                     <a
-                        href="/garden"
+                        href="/tradgard"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Handelsträdgård
                     </a>
                     <a
-                        href="/book"
+                        href="/bocker"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Bokhandel

@@ -7,7 +7,7 @@ const BookShop = () => {
   const navigate = useNavigate();
   
   const goToBooks = () => {
-    navigate("/book");
+    navigate("/bocker");
   };
     return (
       <>
