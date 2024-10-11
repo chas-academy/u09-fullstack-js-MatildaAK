@@ -32,19 +32,19 @@ const NewCollections: React.FC = () => {
         console.error('Error fetching products:', error);
         setErrorMessage(error.message);
       } finally {
-        setIsLoading(false); // Laddningen är klar
+        setIsLoading(false); 
       }
     };
 
     fetchProducts();
-  }, []); // Den här körs endast en gång när komponenten mountas
+  }, []); 
 
   if (isLoading) {
-    return <p>Laddar produkter...</p>; // Laddningsindikator
+    return <p>Laddar produkter...</p>;
   }
 
   if (errorMessage) {
-    return <p>{errorMessage}</p>; // Visar felmeddelande om det uppstår något fel
+    return <p>{errorMessage}</p>; 
   }
 
   return (
