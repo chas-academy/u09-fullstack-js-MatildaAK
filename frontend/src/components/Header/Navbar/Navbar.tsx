@@ -1,16 +1,95 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faUser, faUserTie } from '@fortawesome/free-solid-svg-icons'
 import icon from '../../../assets/images/icon.svg'
 import { ShopContext } from '../../../Context/ShopContext'
+import { IUser } from '../../../pages/User/IUser'
+import BASE_URL from '../../../config'
+import { Link } from 'react-router-dom'
 
-const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const {getTotalCartItems} = useContext(ShopContext);
+interface NavbarProps {
+    isAuthenticated: boolean
+    onLogout: () => void
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
+    const [userData, setUserData] = useState<IUser>({
+        _id: '',
+        userName: '',
+        image: '',
+        name: '',
+        email: '',
+        password: '',
+        role: 0,
+    })
+    const [isOpen, setIsOpen] = useState(false)
+    const { getTotalCartItems } = useContext(ShopContext)
+    // const dropdownRef = useRef<HTMLDivElement>(null)
+    // const [isDropdownVisible, setIsDropdownVisible] = useState(false)
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
     }
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (!isAuthenticated) return
+
+            try {
+                const id = localStorage.getItem('id')
+                const token = localStorage.getItem('token')
+                console.log('Hämtar ID:', id)
+                console.log('Hämtar Token:', token)
+
+                if (!id || !token) {
+                    throw new Error('User ID or token not found')
+                }
+
+                const response = await fetch(`${BASE_URL}/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+
+                console.log('Response status:', response.status)
+
+                if (!response.ok) {
+                    const errorData = await response.json()
+                    throw new Error(errorData.error || 'Failed to fetch user data')
+                }
+
+                const data = await response.json()
+                setUserData(data)
+                console.log('Inloggad användare:', data)
+            } catch (error) {
+                console.error('Fetch user data error:', error)
+            }
+        }
+
+        fetchUserData()
+    }, [isAuthenticated])
+
+    // useEffect(() => {
+    //     const handleClickOutside = (event: MouseEvent) => {
+    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    //             setIsDropdownVisible(false)
+    //         }
+    //     }
+
+    //     document.addEventListener('mousedown', handleClickOutside)
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside)
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     setIsDropdownVisible(false)
+    // }, [isAuthenticated])
+
+    // const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible)
+    // const closeDropdown = () => setIsDropdownVisible(false)
 
     return (
         <nav className="bg-primaryLightGreen dark:bg-primaryDarkGreen">
@@ -20,13 +99,22 @@ const Navbar = () => {
                     <a href="/" className="text-black dark:text-white hover:text-primaryLightGreen">
                         Hem
                     </a>
-                    <a href="/garden" className="text-black dark:text-white hover:text-primaryLightGreen">
+                    <a
+                        href="/garden"
+                        className="text-black dark:text-white hover:text-primaryLightGreen"
+                    >
                         Handelsträdgård
                     </a>
-                    <a href="/cafe" className="text-black dark:text-white hover:text-primaryLightGreen">
+                    <a
+                        href="/cafe"
+                        className="text-black dark:text-white hover:text-primaryLightGreen"
+                    >
                         Café
                     </a>
-                    <a href="/book" className="text-black dark:text-white hover:text-primaryLightGreen">
+                    <a
+                        href="/book"
+                        className="text-black dark:text-white hover:text-primaryLightGreen"
+                    >
                         Bokhandel
                     </a>
                 </div>
@@ -50,9 +138,30 @@ const Navbar = () => {
                             {getTotalCartItems()}
                         </span>
                     </a>
-                    <a href="/login" className="text-black dark:text-white hover:text-primaryLightGreen">
-                        Logga in
-                    </a>
+                    {isAuthenticated ? (
+                        userData.image ? (
+                            <img
+                                src={`data:image/jpeg;base64,${userData.image}`}
+                                alt={userData.name || 'Användarbild'}
+                                onClick={onLogout}
+                                height={60}
+                                width={43}
+                            />
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faUserTie}
+                                className="h-[45px] w-[45px] text-black"
+                                onClick={onLogout}
+                            />
+                        )
+                    ) : (
+                        <Link
+                            to={'/login'}
+                            className="text-black dark:text-white hover:text-primaryLightGreen"
+                        >
+                            <p>Logga in</p>
+                        </Link>
+                    )}
                 </div>
             </div>
 
@@ -89,16 +198,35 @@ const Navbar = () => {
                             className="text-black dark:text-white"
                         />
                         <span className="relative px-2 w-5 h-5 rounded-full bg-secondaryLightBrown dark:bg-secondaryDarkBrown text-black dark:text-white medium-14 -top-2">
-                        {getTotalCartItems()}
+                            {getTotalCartItems()}
                         </span>
                     </a>
-                    <a href="/login" className="ml-4">
-                        <FontAwesomeIcon
-                            icon={faUser}
-                            size="xl"
-                            className="text-black dark:text-white"
-                        />
-                    </a>
+
+                    {isAuthenticated ? (
+                        userData.image ? (
+                            <img
+                                src={`data:image/jpeg;base64,${userData.image}`}
+                                alt={userData.name || 'Användarbild'}
+                                onClick={onLogout}
+                                height={60}
+                                width={43}
+                            />
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faUserTie}
+                                className="h-[45px] w-[45px] text-black"
+                                onClick={onLogout}
+                            />
+                        )
+                    ) : (
+                        <Link to={'/login'}>
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                size="xl"
+                                className="text-black dark:text-white"
+                            />
+                        </Link>
+                    )}
                 </div>
             </div>
 
