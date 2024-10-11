@@ -144,13 +144,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                                 src={`data:image/jpeg;base64,${userData.image}`}
                                 alt={userData.name || 'Användarbild'}
                                 onClick={onLogout}
-                                height={60}
-                                width={43}
+                                className='rounded-full w-[35px] h-[35px] cursor-pointer'
                             />
                         ) : (
                             <FontAwesomeIcon
                                 icon={faUserTie}
-                                className="h-[45px] w-[45px] text-black"
+                                className="h-[35px] w-[35px] text-black"
                                 onClick={onLogout}
                             />
                         )
@@ -191,7 +190,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                 </a>
 
                 <div className="flex items-center">
-                    <a href="/cart" className="relative">
+                    <a href="/cart" className="relative pr-2">
                         <FontAwesomeIcon
                             icon={faCartShopping}
                             size="xl"
@@ -208,8 +207,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                                 src={`data:image/jpeg;base64,${userData.image}`}
                                 alt={userData.name || 'Användarbild'}
                                 onClick={onLogout}
-                                height={60}
-                                width={43}
+                                className='rounded-full w-[35px] h-[35px] '
                             />
                         ) : (
                             <FontAwesomeIcon
