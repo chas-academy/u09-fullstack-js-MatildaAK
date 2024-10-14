@@ -128,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                    <a href="/cart" className="relative">
+                    <a href="/kundkorg" className="relative">
                         <FontAwesomeIcon
                             icon={faCartShopping}
                             size="xl"
@@ -190,7 +190,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                 </a>
 
                 <div className="flex items-center">
-                    <a href="/cart" className="relative pr-2">
+                    <a href="/kundkorg" className="relative pr-2">
                         <FontAwesomeIcon
                             icon={faCartShopping}
                             size="xl"

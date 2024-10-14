@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import BASE_URL from '../config'
+import { useAuth } from '../components/Auth/Auth'
 
 type Product = {
     id: number
@@ -36,7 +37,7 @@ export const ShopContext = createContext<ShopContextType>({
 const getDefaultCart = () => {
     const storedCart = localStorage.getItem('cart')
     if (storedCart) {
-        return JSON.parse(storedCart)
+        return storedCart ? JSON.parse(storedCart) : {}
     }
     let cart: { [key: number]: number } = {}
     for (let index = 0; index < 300 + 1; index++) {
@@ -48,29 +49,95 @@ const getDefaultCart = () => {
 const ShopContextProvider: React.FC<ShopContextProviderProps> = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart())
     const [all_products, setAll_products] = useState<Product[]>([])
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         const fetchProducts = async () => {
-          try {
-            const response = await fetch(`${BASE_URL}/produkter`);
-            if (!response.ok) {
-              throw new Error("Något gick fel vid hämtning av produkterna");
+            const token = localStorage.getItem('token')
+            try {
+                const response = await fetch(`${BASE_URL}/produkter`)
+                if (!response.ok) {
+                    throw new Error('Något gick fel vid hämtning av produkterna')
+                }
+                const data = await response.json()
+                setAll_products(data.products || []);
+
+                if(token) {
+                    fetch(`${BASE_URL}/kundkorg`, {
+                        method: "POST",
+                        headers: {
+                            Accept: 'application/json',
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body:"",
+                    }) .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Error: ${response.statusText}`)
+                        }
+                        return response.json()
+                    })
+                    .then((data) => {
+                        if (!data.success) {
+                            console.log('Hittade inte kundkorg')
+                        } else {
+                            console.log("Kundkorg")
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error.message)
+                    })
+                }
+            } catch (error: any) {
+                console.error('Error fetching products:', error)
             }
-            const data = await response.json();
-            setAll_products(data.products || []);
-          } catch (error: any) {
-            console.error('Error fetching products:', error);
-          }
-        };
-    
-        fetchProducts();
-      }, []);
+        }
+
+        fetchProducts()
+    }, [])
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+    }, [cartItems, isAuthenticated]);
 
     const addToCart = (itemId: number, quantity: number) => {
         setCartItems((prev: { [key: number]: number }) => ({
             ...prev,
             [itemId]: quantity,
         }))
+
+        const token = localStorage.getItem('token')
+        if (token) {
+            fetch(`${BASE_URL}/addkundkorg`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ itemId: itemId, quantity: quantity }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.statusText}`)
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    if (!data.success) {
+                        console.log('Misslyckades att lägga till')
+                    } else {
+                        console.log('Tilldagd')
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error.message)
+                })
+        } else {
+            console.error('Ingen token hittades i localStorage.')
+        }
     }
 
     const removeFromCart = (itemId: number) => {
@@ -79,6 +146,37 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = (props) => {
             delete updatedCart[itemId]
             return updatedCart
         })
+
+        const token = localStorage.getItem('token')
+        if (token) {
+            fetch(`${BASE_URL}/subkundkorg`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ itemId: itemId }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.statusText}`)
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    if (!data.success) {
+                        console.log('Misslyckades att tabort produkt')
+                    } else {
+                        console.log('Borttagen')
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error.message)
+                })
+        } else {
+            console.error('Ingen token hittades i localStorage.')
+        }
     }
 
     const getTotalCartAmount = () => {

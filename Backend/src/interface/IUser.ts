@@ -12,6 +12,7 @@ export interface IUser extends Document {
   generateAuthToken: () => Promise<string>;
   image?: string;
   role: number;
+  cartData: Object;
 }
 
 export interface IUserMethods {

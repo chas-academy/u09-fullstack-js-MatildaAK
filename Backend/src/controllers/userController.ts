@@ -68,6 +68,11 @@ export const registerUser = async (user: Partial<IUser>) => {
       };
     }
 
+    const cart: { [key: number]: number } = {};
+    for (let i = 0; i < 300; i++){
+      cart[i] = 0;
+    }
+
     const newUser = new User({
       name,
       userName: userName.toLowerCase(),
@@ -75,6 +80,7 @@ export const registerUser = async (user: Partial<IUser>) => {
       password,
       image,
       role: user.role,
+      cartData: cart,
     });
 
     await newUser.save();
@@ -222,6 +228,104 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
   }
 };
 
+export const addToCart = async (req: CustomRequest, res: Response) => {
+
+  if (!req.user) {
+    return res.status(401).send("Autentisering krävs.");
+  }
+
+  const id = req.user._id;
+
+  const userData = await User.findById(id);
+  
+  if (!userData) {
+    return res.status(404).send("Användare inte hittad");
+  }
+
+  const cartData: { [key: number]: number } = (userData.cartData as { [key: number]: number }) || {}; 
+
+  const itemId = req.body.itemId;
+  const quantity = req.body.quantity;
+
+  if (!cartData[itemId]) {
+    cartData[itemId] = 0;
+  }
+
+  cartData[itemId] = quantity;
+  
+  await User.findByIdAndUpdate(id, { cartData });
+  
+  res.json({ success: true, message: "Tillagd" });
+};
+
+export const removeFromCart = async (req: CustomRequest, res: Response) => {
+  if (!req.user) {
+    return res.status(401).send("Autentisering krävs.");
+  }
+
+  const id = req.user._id;
+
+  const userData = await User.findById(id);
+  
+  if (!userData) {
+    return res.status(404).send("Användare inte hittad");
+  }
+
+  const cartData: { [key: number]: number } = (userData.cartData as { [key: number]: number }) || {}; 
+
+  const itemId = req.body.itemId;
+  if (!cartData[itemId]) {
+    cartData[itemId] = 0;
+  }
+
+  // cartData[itemId] -= 1;
+  delete cartData[itemId];
+  
+  await User.findByIdAndUpdate(id, { cartData });
+  
+  res.json({ success: true, message: "Borttagen" });
+};
+
+export const getCart = async (req:CustomRequest, res:Response) => {
+  // console.log("Kundkorg");
+
+  if (!req.user) {
+    return res.status(401).send("Autentisering krävs.");
+  }
+
+  const id = req.user._id;
+
+  const userData = await User.findById(id);
+
+  res.json({success: true, message: "Kundkorg", userData})
+};
+
+// export const clearCart = async (req: CustomRequest, res: Response) => {
+//   try {
+//     if (!req.user) {
+//       return res.status(403).send({ message: "Du har inte tillåtelse att radera kundkorgen." });
+//     }
+//     const id = req.user._id;
+
+//     // const userData = await User.findById(id);
+
+//     await User.findByIdAndUpdate(id, { cartData: {} });
+
+//     // if (!userData) {
+//     //   return res.status(404).send("Användare inte hittad");
+//     // }
+
+//     // userData.cartData = {};
+
+//     // await userData.save();
+
+//     return res.status(200).json({ success: true, message: "Kundkorgen har rensats." });
+//   } catch (error) {
+//     console.error("Fel när kundkorgen skulle raderas:", error);
+//     return res.status(500).json({ success: false, message: "Internt serverfel" });
+//   }
+// };
+
 export const deleteOwnAccount = async (req: CustomRequest, res: Response) => {
   try {
     if (!req.user) {
@@ -258,14 +362,27 @@ export const deleteUser = async (req: CustomRequest, res: Response) => {
 };
 
 export const createUser = async (req: CustomRequest, res: Response) => {
-  const { name, userName, email, password, role } = req.body; // Ta emot data från frontend
+  const { name, userName, email, password, role } = req.body;
 
   if (!name || !userName || !email || !password || !role) {
     return res.status(400).json({ message: "Alla fält är obligatoriska." });
   }
 
   try {
-    const newUser = new User({ name, userName, email, password, role });
+
+    const cart: { [key: number]: number } = {};
+    for (let i = 0; i < 300; i++){
+      cart[i] = 0;
+    }
+
+    const newUser = new User({
+      name,
+      userName: userName.toLowerCase(),
+      email: email.toLowerCase(),
+      password,
+      role,
+      cartData: cart,
+    });
     await newUser.save();
     res.status(201).json({ message: "Användare skapad.", user: newUser });
   } catch (error) {

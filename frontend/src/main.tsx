@@ -74,8 +74,8 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: 'cart',
-                element: <Cart />,
+                path: 'kundkorg',
+                element: <ProtectedRoute element={ <Cart />} />,
             },
         ],
     },
