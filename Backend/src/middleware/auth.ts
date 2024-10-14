@@ -4,7 +4,7 @@ import User from "../models/userModel";
 import { IUser } from "../interface/IUser";
 
 export interface CustomRequest extends Request {
-  user?: IUser;
+  user?: IUser | null;
   token?: string;
 }
 
@@ -20,7 +20,7 @@ export const auth = async (
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
-      throw new Error("Autentiseringen misslyckades. Token saknas.");
+      throw new Error("Autentiseringen misslyckades. Vänligen logga in.");
     }
 
     const decoded = jwt.verify(
