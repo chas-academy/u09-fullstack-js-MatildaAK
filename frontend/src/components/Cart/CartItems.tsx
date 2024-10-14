@@ -2,13 +2,13 @@ import { useContext, useEffect } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import Button from '../Button/Button'
 
 const CartItems = () => {
     const { getTotalCartAmount, all_products, cartItems, addToCart, removeFromCart } =
         useContext(ShopContext)
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const handleQuantityChange = (e: any, productId: number) => {
         const newQuantity = parseInt(e.target.value, 10)
@@ -23,34 +23,30 @@ const CartItems = () => {
     useEffect(() => {
         const isCartEmpty = Object.values(cartItems).every((qty) => qty === 0)
         if (isCartEmpty) {
-            navigate('/')
+            // navigate('/')
+         <p className='text-white'>Kundkorg är tom</p>
         }
-    }, [cartItems, navigate])
+    }, [cartItems])
 
     return (
         <section className="h-screen">
             <div className="text-black dark:text-white">
-                {all_products.map((e) => {
-                    if (cartItems[e.id] > 0) {
+                {all_products.map((product) => {
+                    if (cartItems[product.id] > 0) {
                         return (
-                            <div>
+                            <div key={product.id}>
                                 <div className="border-y-2 border-black dark:border-white">
                                     <div className="flex flex-row py-4 px-6">
                                         <div className="basis-1/2">
                                             <div className="flex flex-row">
-                                                <img
-                                                    src={e.image}
-                                                    alt="Product bild"
-                                                    height={60}
-                                                    width={43}
-                                                />
+                                                <img src={`data:image/jpeg;base64,${product.image}`} height={60} width={43} alt={product.title} />
                                                 <div className="flex flex-col pl-4">
-                                                    <div>{e.title}</div>
-                                                    {e.category === 'book' && (
-                                                        <p className="py-2">{e.author}</p>
+                                                    <div>{product.title}</div>
+                                                    {product.category === 'book' && (
+                                                        <p className="py-2">{product.author}</p>
                                                     )}
-                                                    {e.category === 'garden' && (
-                                                        <p className="py-2">{e.sort}</p>
+                                                    {product.category === 'garden' && (
+                                                        <p className="py-2">{product.sort}</p>
                                                     )}
                                                 </div>
                                             </div>
@@ -58,9 +54,9 @@ const CartItems = () => {
                                         <div className="basis-1/2">
                                             <div className="flex flex-row justify-end items-center">
                                                 <select
-                                                    value={cartItems[e.id] || 1}
+                                                    value={cartItems[product.id] || 1}
                                                     onChange={(event) =>
-                                                        handleQuantityChange(event, e.id)
+                                                        handleQuantityChange(event, product.id)
                                                     }
                                                     className="mr-4 border-2 bg-black rounded text-white px-6 py-2"
                                                 >
@@ -74,7 +70,7 @@ const CartItems = () => {
                                                 <div className="pl-4">
                                                     <FontAwesomeIcon
                                                         icon={faXmark}
-                                                        onClick={() => removeFromCart(e.id)}
+                                                        onClick={() => removeFromCart(product.id)}
                                                     />
                                                 </div>
                                             </div>
@@ -82,18 +78,18 @@ const CartItems = () => {
                                     </div>
 
                                     <div>
-                                        {cartItems[e.id] > 1 ? (
+                                        {cartItems[product.id] > 1 ? (
                                             <>
                                                 <p className="text-end font-thin">
-                                                    ({e.price}:-/st)
+                                                    ({product.price}:-/st)
                                                 </p>
                                                 <p className="text-end font-bold">
-                                                    {e.price * cartItems[e.id]}:-
+                                                    {product.price * cartItems[product.id]}:-
                                                 </p>
                                             </>
                                         ) : (
                                             <>
-                                                <p className="text-end font-bold">{e.price}:-</p>
+                                                <p className="text-end font-bold">{product.price}:-</p>
                                             </>
                                         )}
                                     </div>
