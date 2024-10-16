@@ -14,6 +14,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     role: { type: Number, default: 1, enum: [1, 2] },
     image: { type: String, required: false },
     cartData: { type: Object },
+    createdAt: { type: Date, default: Date.now },
   },
   {
     timestamps: true,

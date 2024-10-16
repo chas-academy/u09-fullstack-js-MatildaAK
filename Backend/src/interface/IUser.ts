@@ -13,6 +13,7 @@ export interface IUser extends Document {
   image?: string;
   role: number;
   cartData: Object;
+  createdAt: Date;
 }
 
 export interface IUserMethods {
