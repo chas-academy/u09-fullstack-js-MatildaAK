@@ -38,8 +38,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
             try {
                 const id = localStorage.getItem('id')
                 const token = localStorage.getItem('token')
-                console.log('Hämtar ID:', id)
-                console.log('Hämtar Token:', token)
 
                 if (!id || !token) {
                     throw new Error('User ID or token not found')
@@ -53,8 +51,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                     },
                 })
 
-                console.log('Response status:', response.status)
-
                 if (!response.ok) {
                     const errorData = await response.json()
                     throw new Error(errorData.error || 'Failed to fetch user data')
@@ -62,7 +58,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
 
                 const data = await response.json()
                 setUserData(data)
-                console.log('Inloggad användare:', data)
             } catch (error) {
                 console.error('Fetch user data error:', error)
             }
