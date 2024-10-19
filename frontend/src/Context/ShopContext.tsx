@@ -169,7 +169,7 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ children }) =
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await fetch(`${BASE_URL}/kundkorg`, {
+        const response = await fetch(`${BASE_URL}/kundkorg/removeall`, {
           method: 'DELETE',
           headers: {
             Accept: 'application/json',
