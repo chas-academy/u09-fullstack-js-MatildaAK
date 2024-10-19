@@ -13,6 +13,7 @@ import bannerbook from './assets/images/bannerbooks.svg'
 import Register from './pages/RegisterPage/Register.tsx'
 import { AuthProvider, useAuth } from './components/Auth/Auth.tsx'
 import ShopContextProvider from './Context/ShopContext.tsx'
+import Success from './pages/Success/Success.tsx'
 
 interface ProtectedRouteProps {
     element: React.ReactElement
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
             {
                 path: 'kundkorg',
                 element: <ProtectedRoute element={ <Cart />} />,
+            },
+            {
+                path: 'lyckadbetalning',
+                element: <ProtectedRoute element={ <Success />} />,
             },
         ],
     },
