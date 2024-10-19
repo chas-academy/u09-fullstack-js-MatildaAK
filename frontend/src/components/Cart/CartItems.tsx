@@ -1,13 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../../Context/ShopContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
+import { loadStripe } from '@stripe/stripe-js';
+import BASE_URL from '../../config';
+
+const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_STRIPE_KEY);
 
 const CartItems = () => {
     const { getTotalCartAmount, all_products, cartItems, updateCartQuantity, removeFromCart } = useContext(ShopContext);
+    const [canceled, setCanceled] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const items = Array.isArray(cartItems) ? cartItems : []; 
 
@@ -25,9 +31,58 @@ const getCartItemQuantity = (productId: number) => {
         }
     };
 
-    const toCheckout = () => {
-        navigate("/kassa");
-    }
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        if (queryParams.get('canceled')) {
+            setCanceled(true);
+        }
+    }, [location]);
+
+    const handlePayment = async () => {
+        const stripe = await stripePromise;
+
+        if (!stripe) {
+            console.error("Stripe not loaded");
+            return;
+        }
+    
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${BASE_URL}/betalning/create-checkout-session`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    products: items,
+                }),
+            });
+    
+            if (!res.ok) {
+                throw new Error("Error creating checkout session");
+            }
+
+            const session = await res.json();
+            console.log("session is here", session);
+    
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.id,
+            });
+   
+            if (result.error) {
+                console.error("Error:", result.error.message);
+            }
+        } catch (error) {
+            console.error("Error handling payment:", error);
+        }
+    };
+    
+
+
+    // const toCheckout = () => {
+    //     navigate("/kassa");
+    // }
 
     const isCartEmpty = items.length === 0 || items.every(item => item.quantity === 0);
   
@@ -45,6 +100,8 @@ const getCartItemQuantity = (productId: number) => {
                 ) : (
                     all_products.map((product) => {
                         const quantity = getCartItemQuantity(product.id);
+
+                        {canceled && <p style={{ color: 'red' }}>Ditt köp avbröts. Vänligen kontrollera din kundvagn.</p>}
 
                         if (quantity > 0) {
                             return (
@@ -132,7 +189,7 @@ const getCartItemQuantity = (productId: number) => {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <Button type="button" variant="primary" size="small" onClick={toCheckout}>
+                        <Button type="button" variant="primary" size="small" onClick={handlePayment}>
                             Till kassan
                         </Button>
                     </div>
