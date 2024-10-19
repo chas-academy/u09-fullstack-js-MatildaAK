@@ -113,6 +113,28 @@ export const removeFromCart = async (req: CustomRequest, res: Response) => {
     }
 };
 
+export const removeAllFromCart = async (req: CustomRequest, res: Response) => {
+    if (!req.user) {
+        return res.status(401).send("Autentisering krävs.");
+    }
+    
+    console.log("Request Body:", req.body);
+
+    try {
+        const user = req.user;
+        
+        user.cartItems = [];
+        
+        await user.save();
+
+        res.json(user.cartItems);
+    } catch (error: any) {
+        console.log("Error in removeFromCart controller:", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
 export const updateQuantity = async (req: CustomRequest, res: Response) => {
     if (!req.user) {
         return res.status(401).send("Autentisering krävs.");
