@@ -2,9 +2,10 @@
 
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import all_products from '../../assets/all_products'
-import Item from '../../components/PopularItems/Item'
+import Item from '../../components/Product/PopularItems/Item'
 import Button from '../../components/Button/Button'
+import { useContext } from 'react'
+import { ShopContext } from '../../Context/ShopContext'
 
 type CategoryProps = {
     category: string
@@ -12,6 +13,8 @@ type CategoryProps = {
 }
 
 const Category: React.FC<CategoryProps> = ({ category, banner }) => {
+    const { all_products } = useContext(ShopContext)
+
     return (
         <section>
             <div>
@@ -27,25 +30,41 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
                     Filter <FontAwesomeIcon icon={faChevronDown} />{' '}
                 </div>
             </div>
+
             <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-                {all_products.map((item) => {
-                    if (category === item.category) {
-                        return (
-                            <div className="bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3">
-                                <Item
-                                    key={item.id}
-                                    id={item.id}
-                                    image={item.image}
-                                    title={item.title}
-                                    author={item.category === 'book' ? item.author : undefined}
-                                    sort={item.category === 'garden' ? item.sort : undefined}
-                                    price={item.price}
-                                    category={item.category}
-                                />
-                            </div>
-                        )
-                    }
-                })}
+                {Array.isArray(all_products) && all_products.length > 0 ? (
+                    all_products.filter((item) => item.category === category).length > 0 ? (
+                        all_products.map((item) => {
+                            if (category === item.category) {
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3"
+                                    >
+                                        <Item
+                                            id={item.id}
+                                            image={item.image}
+                                            title={item.title}
+                                            author={
+                                                item.category === 'book' ? item.author : undefined
+                                            }
+                                            sort={
+                                                item.category === 'garden' ? item.sort : undefined
+                                            }
+                                            price={item.price}
+                                            category={item.category}
+                                        />
+                                    </div>
+                                )
+                            }
+                            return null
+                        })
+                    ) : (
+                        <p className='text-black dark:text-white text-center'>Inga produkter i denna kategori</p> // Meddelande när kategorin är tom
+                    )
+                ) : (
+                    <p>Laddar produkter...</p> // Laddningsindikator om produkter inte har laddats än
+                )}
             </div>
 
             <div className="my-10 text-center text-black dark:text-white">
