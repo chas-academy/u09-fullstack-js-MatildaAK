@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react'
-import BASE_URL from '../../config'
 
 interface AuthContextType {
     isAuthenticated: boolean
