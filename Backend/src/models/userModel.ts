@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { IUser, IUserMethods, UserModel } from "../interface/IUser";
@@ -13,7 +13,19 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     tokens: [{ token: { type: String, required: false } }],
     role: { type: Number, default: 1, enum: [1, 2] },
     image: { type: String, required: false },
-    cartData: { type: Object },
+    cartItems: [
+			{
+				quantity: {
+					type: Number,
+					default: 1,
+				},
+				product: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+          required: true,
+				},
+			},
+		],
     createdAt: { type: Date, default: Date.now },
   },
   {

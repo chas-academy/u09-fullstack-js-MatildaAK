@@ -10,10 +10,6 @@ import {
   deleteOwnAccount,
   searchUsers,
   createUser,
-  addToCart,
-  removeFromCart,
-  getCart,
-  // clearCart,
 } from "../controllers/userController";
 import { IUser } from "../interface/IUser";
 import { auth, admin, CustomRequest } from "../middleware/auth";
@@ -31,7 +27,6 @@ userRouter.post("/registrera", async (req, res) => {
     confirmPassword: req.body.confirmPassword,
     image: req.body.image,
     role: req.body.role,
-    cartData: req.body.cart,
   };
   console.log(req.body);
 
@@ -112,14 +107,6 @@ userRouter.get("/:id", auth, async (req, res) => {
 userRouter.put("/anvandare/:id", auth, uploadMiddleware, updateUser);
 
 userRouter.delete("/:userName", auth, deleteOwnAccount);
-
-userRouter.post("/addkundkorg", auth, addToCart);
-
-userRouter.post("/subkundkorg", auth, removeFromCart);
-
-userRouter.post("/kundkorg", auth, getCart);
-
-// userRouter.delete("/clearCart", auth, clearCart);
 
 userRouter.get("/admin/:id", auth, admin, async (req, res) => {
   const id = req.params.id;

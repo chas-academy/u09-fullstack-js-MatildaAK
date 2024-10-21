@@ -1,6 +1,13 @@
 import { HydratedDocument, Model, Document } from "mongoose";
 import { ObjectId } from "mongodb";
 
+interface CartItem {
+  _id: ObjectId;
+  id: number;
+  quantity: number;
+  product: ObjectId;
+}
+
 export interface IUser extends Document {
   _id: ObjectId;
   name?: string;
@@ -12,7 +19,7 @@ export interface IUser extends Document {
   generateAuthToken: () => Promise<string>;
   image?: string;
   role: number;
-  cartData: Object;
+  cartItems: CartItem[];
   createdAt: Date;
 }
 
