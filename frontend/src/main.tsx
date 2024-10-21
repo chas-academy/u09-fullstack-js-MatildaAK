@@ -14,6 +14,7 @@ import Register from './pages/RegisterPage/Register.tsx'
 import { AuthProvider, useAuth } from './components/Auth/Auth.tsx'
 import ShopContextProvider from './Context/ShopContext.tsx'
 import Success from './pages/Success/Success.tsx'
+import User from './components/User/User.tsx'
 
 interface ProtectedRouteProps {
     element: React.ReactElement
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
             {
                 path: 'lyckadbetalning',
                 element: <ProtectedRoute element={ <Success />} />,
+            },
+            {
+                path: 'minsida',
+                element: <ProtectedRoute element={ <User />} />,
             },
         ],
     },

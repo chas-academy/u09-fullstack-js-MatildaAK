@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faUser, faUserTie } from '@fortawesome/free-solid-svg-icons'
 import icon from '../../../assets/images/icon.svg'
@@ -14,18 +14,18 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
     const [userData, setUserData] = useState<IUser>({
-        _id: '',
         userName: '',
         image: '',
         name: '',
         email: '',
         password: '',
         role: 0,
+        createdAt: '',
     })
     const [isOpen, setIsOpen] = useState(false)
     const { getTotalCartItems } = useContext(ShopContext)
-    // const dropdownRef = useRef<HTMLDivElement>(null)
-    // const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+    const dropdownRef = useRef<HTMLDivElement>(null)
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false)
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
@@ -66,25 +66,25 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
         fetchUserData()
     }, [isAuthenticated])
 
-    // useEffect(() => {
-    //     const handleClickOutside = (event: MouseEvent) => {
-    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-    //             setIsDropdownVisible(false)
-    //         }
-    //     }
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownVisible(false)
+            }
+        }
 
-    //     document.addEventListener('mousedown', handleClickOutside)
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside)
-    //     }
-    // }, [])
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
-    // useEffect(() => {
-    //     setIsDropdownVisible(false)
-    // }, [isAuthenticated])
+    useEffect(() => {
+        setIsDropdownVisible(false)
+    }, [isAuthenticated])
 
-    // const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible)
-    // const closeDropdown = () => setIsDropdownVisible(false)
+    const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible)
+    const closeDropdown = () => setIsDropdownVisible(false)
 
     return (
         <nav className="bg-primaryLightGreen dark:bg-primaryDarkGreen">
@@ -133,29 +133,58 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                             {getTotalCartItems()}
                         </span>
                     </a>
-                    {isAuthenticated ? (
-                        userData.image ? (
-                            <img
-                                src={`data:image/jpeg;base64,${userData.image}`}
-                                alt={userData.name || 'Användarbild'}
-                                onClick={onLogout}
-                                className='rounded-full w-[35px] h-[35px] cursor-pointer'
-                            />
+
+                    <div ref={dropdownRef} className="relative">
+                        {isAuthenticated ? (
+                            <>
+                                {userData.image ? (
+                                    <img
+                                        src={`data:image/jpeg;base64,${userData.image}`}
+                                        alt={userData.name || 'Användarbild'}
+                                        onClick={toggleDropdown}
+                                        className="rounded-full w-[35px] h-[35px] cursor-pointer"
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={faUserTie}
+                                        className="h-[35px] w-[35px] text-black dark:text-white cursor-pointer"
+                                        onClick={toggleDropdown}
+                                    />
+                                )}
+
+                                {isDropdownVisible && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-primaryLightGreen shadow-lg rounded-md dark:bg-primaryDarkGreen ">
+                                        <ul className="py-2">
+                                            <li>
+                                                <Link
+                                                    to="/minsida"
+                                                    onClick={closeDropdown}
+                                                    className="block px-4 py-2 text-black dark:text-white hover:bg-secondaryLightBrown dark:hover:bg-thirdDarkBlue"
+                                                >
+                                                    Min sida
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    onClick={onLogout}
+                                                    className="block w-full text-left px-4 py-2 text-black dark:text-white hover:bg-secondaryLightBrown dark:hover:bg-thirdDarkBlue"
+                                                >
+                                                    Logga ut
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
                         ) : (
-                            <FontAwesomeIcon
-                                icon={faUserTie}
-                                className="h-[35px] w-[35px] text-black"
-                                onClick={onLogout}
-                            />
-                        )
-                    ) : (
-                        <Link
-                            to={'/login'}
-                            className="text-black dark:text-white hover:text-primaryLightGreen"
-                        >
-                            <p>Logga in</p>
-                        </Link>
-                    )}
+                            <Link
+                                to="/login"
+                                className="text-black dark:text-white hover:text-primaryLightGreen"
+                            >
+                                <p>Logga in</p>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -196,30 +225,57 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                         </span>
                     </a>
 
-                    {isAuthenticated ? (
-                        userData.image ? (
-                            <img
-                                src={`data:image/jpeg;base64,${userData.image}`}
-                                alt={userData.name || 'Användarbild'}
-                                onClick={onLogout}
-                                className='rounded-full w-[35px] h-[35px] '
-                            />
+                    <div ref={dropdownRef} className="relative">
+                        {isAuthenticated ? (
+                            <>
+                                {userData.image ? (
+                                    <img
+                                        src={`data:image/jpeg;base64,${userData.image}`}
+                                        alt={userData.name || 'Användarbild'}
+                                        onClick={toggleDropdown}
+                                        className="rounded-full w-[35px] h-[35px] cursor-pointer"
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={faUserTie}
+                                        className="h-[35px] w-[35px] text-black cursor-pointer dark:text-white"
+                                        onClick={toggleDropdown}
+                                    />
+                                )}
+
+                                {isDropdownVisible && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-primaryLightGreen shadow-lg rounded-md dark:bg-primaryDarkGreen">
+                                        <ul className="py-2">
+                                            <li>
+                                                <Link
+                                                    to="/minsida"
+                                                    onClick={closeDropdown}
+                                                    className="block px-4 py-2 text-black dark:text-white"
+                                                >
+                                                    Min sida
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    onClick={onLogout}
+                                                    className="block w-full text-left px-4 py-2 text-black dark:text-white"
+                                                >
+                                                    Logga ut
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
                         ) : (
-                            <FontAwesomeIcon
-                                icon={faUserTie}
-                                className="h-[45px] w-[45px] text-black"
-                                onClick={onLogout}
-                            />
-                        )
-                    ) : (
-                        <Link to={'/login'}>
-                            <FontAwesomeIcon
-                                icon={faUser}
-                                size="xl"
-                                className="text-black dark:text-white"
-                            />
-                        </Link>
-                    )}
+                            <Link
+                                to="/login"
+                                className="text-black dark:text-white hover:text-primaryLightGreen"
+                            >
+                                <p>Logga in</p>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -256,12 +312,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                     >
                         Om MJs
                     </a>
-                    <a
+                    {/* <a
                         href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
                     >
                         Profil
-                    </a>
+                    </a> */}
                     <a
                         href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
