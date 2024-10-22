@@ -6,14 +6,33 @@ Så denna e-handels och hemsida är en början på den drömmen.
 
 ## Instalation
 1. Klona eller forka projektet
-2. kör komandot:
+2. kör kommandot:
 ```bash
-npm i eller npm install
+npm i 
+```
+```bash
+npm install
 ```
 
 3. starta programet genom (har instalerat *concurrently* så du kan köra dierkt från root mappen för att köra alla tre sidor samtidigt)
 ```bash
 npm run dev
+```
+
+3. Skapa en .env fil i backend och lägg till detta:
+```bash
+MONGODB_URL=your_connection_to_mongodb
+
+JWT_SECRET_KEY=your_jwt_secret_key
+
+STRIPE_SECRET_KEY=your_stripe_secret_key
+
+CLIENT_URL=your_frontend_url
+```
+
+4. Skapa en .env fil i din frontend (inte admin)
+```bash
+VITE_PUBLIC_STRIPE_KEY=your_stripe_publik_key
 ```
 
 # Deployment
