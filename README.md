@@ -23,9 +23,9 @@ npm run dev
 ```bash
 MONGODB_URL=your_connection_to_mongodb
 
-JWT_SECRET_KEY=your_jwt_secret_key
+JWT_SECRET=your_jwt_secret_key
 
-STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_SECRET=your_stripe_secret_key
 
 CLIENT_URL=your_frontend_url
 ```
