@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest src/*",
     "build": "npx tsc",
-    "start": "node --max-old-space-size=2048 src/server.js",
-    "dev": "nodemon --max-old-space-size=2048 src/server.ts"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",
