@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
+import BASE_URL from "../../config";
 
 
 
@@ -22,7 +23,7 @@ const ProductDisplay = (props: { product: any; }) => {
         <div className="flex flex-col gap-14 xl:flex-row text-black dark:text-white">
             <div className="flex gap-x-2">
                 <div className="ml-10">
-                <img src={`data:image/jpeg;base64,${product.image}`} height={200} width={200} alt={product.title} />
+                <img src={`${BASE_URL}/uploads/${product.image}`} height={200} width={200} alt={product.title} />
                 </div>
             </div>
             <div>

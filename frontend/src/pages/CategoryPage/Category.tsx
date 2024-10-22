@@ -13,12 +13,21 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
     const { all_products } = useContext(ShopContext)
     const [searchResults, setSearchResults] = useState<Product[]>([])
     const [searchPerformed, setSearchPerformed] = useState(false)
-    const [input] = useState('');
+    const [input] = useState('')
 
     const handleSearchResults = (results: Product[]) => {
         setSearchResults(results)
         setSearchPerformed(true)
     }
+
+    console.log('Mottagen kategori:', category)
+    console.log('Alla produkter:', all_products)
+
+    const filteredProducts = all_products.filter((item) => {
+        const productCategory = item._doc?.category || item.category
+        return productCategory === category
+    })
+    console.log('Filtrerade produkter:', filteredProducts)
 
     return (
         <section>
@@ -36,7 +45,7 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
             </div>
 
             <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-                {searchPerformed ? ( // Kolla om en sökning har utförts
+                {searchPerformed ? (
                     searchResults.length > 0 ? (
                         searchResults.map((item) => (
                             <div
@@ -55,46 +64,39 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
                             </div>
                         ))
                     ) : (
-                       input && <p className="text-black dark:text-white text-center">
-                            Inga produkter hittades
-                        </p>
+                        input && (
+                            <p className="text-black dark:text-white text-center">
+                                Inga produkter hittades
+                            </p>
+                        )
                     )
-                ) : Array.isArray(all_products) && all_products.length > 0 ? (
-                    all_products.filter((item) => item.category === category).length > 0 ? (
-                        all_products.map((item) => {
-                            if (category === item.category) {
-                                return (
-                                    <div
-                                        key={item.id}
-                                        className="border p-4 rounded-lg bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3"
-                                    >
-                                        <Item
-                                            id={item.id}
-                                            image={item.image}
-                                            title={item.title}
-                                            author={
-                                                item.category === 'book' ? item.author : undefined
-                                            }
-                                            sort={
-                                                item.category === 'garden' ? item.sort : undefined
-                                            }
-                                            price={item.price}
-                                            category={item.category}
-                                        />
-                                    </div>
-                                )
-                            }
-                            return null
-                        })
-                    ) : (
-                        <p className="text-black dark:text-white text-center">
-                            Inga produkter i denna kategori
-                        </p>
-                    )
+                ) : filteredProducts.length > 0 ? (
+                    filteredProducts.map((item) => {
+                        const doc = item._doc || item
+                        return (
+                            <div
+                                key={item.id}
+                                className="border p-4 rounded-lg bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3"
+                            >
+                                <Item
+                                    id={item.id}
+                                    image={doc.image}
+                                    title={doc.title}
+                                    author={doc.category === 'book' ? doc.author : undefined}
+                                    sort={doc.category === 'garden' ? doc.sort : undefined}
+                                    price={doc.price}
+                                    category={doc.category}
+                                />
+                            </div>
+                        )
+                    })
                 ) : (
-                    <p>Laddar produkter...</p>
+                    <p className="text-black dark:text-white text-center">
+                        Inga produkter i denna kategori
+                    </p>
                 )}
             </div>
+
             <div className="my-10 text-center text-black dark:text-white">
                 <Button type="button" variant="third" size="small">
                     Ladda fler produkter

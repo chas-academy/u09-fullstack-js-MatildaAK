@@ -12,6 +12,10 @@ export type Product = {
     price: number
     author?: string
     sort?: string
+    _doc?: {
+        category: string;
+        [key: string]: any;
+      }
 }
 
 interface SearchbarProps {
@@ -33,12 +37,25 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
             return
         }
 
-        const filtered = all_products.filter((product) => {
+        const cleanedProducts = all_products.map((product) => {
+            if (product._doc && product._doc.image) {
+                const { image, ...restProduct } = product;
+                return {
+                    ...restProduct,
+                    image: product._doc.image,
+                };
+            }
+            return product;
+        });
+
+        const filtered = cleanedProducts.filter((product) => {
+            const doc = product._doc || product
+
             const lowerCaseTerm = searchTerm.toLowerCase()
 
-            const titleMatches = product.title.toLowerCase().includes(lowerCaseTerm)
-            const authorMatches = product.author?.toLowerCase().includes(lowerCaseTerm) || false
-            const sortMatches = product.sort?.toLowerCase().includes(lowerCaseTerm) || false
+            const titleMatches = doc.title.toLowerCase().includes(lowerCaseTerm)
+            const authorMatches = doc.author?.toLowerCase().includes(lowerCaseTerm) || false
+            const sortMatches = doc.sort?.toLowerCase().includes(lowerCaseTerm) || false
 
             return titleMatches || authorMatches || sortMatches
         })

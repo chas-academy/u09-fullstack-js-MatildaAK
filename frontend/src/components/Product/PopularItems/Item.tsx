@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import BASE_URL from '../../../config'
 
 type ItemProps = {
     id: number
@@ -15,7 +16,7 @@ const Item: React.FC<ItemProps> = ({ id, category, title, author, sort, image, p
         <Link to={`/${category}/${id}`}>
             <div className="mx-6 my-3">
                 <div className="flex justify-center mt-4">
-                    <img src={`data:image/jpeg;base64,${image}`} height={80} width={60} alt={title} />
+                    <img src={`${BASE_URL}/uploads/${image}`} height={80} width={60} alt={title} />
                 </div>
                 <div className="text-black dark:text-white font-sans p-2 text-center text-xs xs:text-base md:text-lg">
                     <h4 className="font-semibold">{title}</h4>
