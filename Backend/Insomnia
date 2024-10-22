@@ -1,0 +1,541 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2024-10-21T07:58:33.404Z",
+  "__export_source": "insomnia.desktop.app:v10.1.0",
+  "resources": [
+    {
+      "_id": "req_5dde41b283c7471abf3ec15be2eb699c",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1729256318173,
+      "created": 1729254795920,
+      "url": "http://localhost:4000/kundkorg/checkout",
+      "name": "New Request",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.1.0",
+          "id": "pair_04c65790402f4cb8b813ac4a613afd49"
+        },
+        {
+          "id": "pair_2abc1fdc9fce40f9b22ff588a71818ea",
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzEyMjQzNTBmMzEyMjczOWVmN2NjNGMiLCJpYXQiOjE3MjkyNTYzMDAsImV4cCI6MTcyOTI1OTkwMH0.yT1ZG7dsOHpmj8UPzFC6BhTyjMKEQa9NhAjntWI9hco",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1729254795920,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "parentId": null,
+      "modified": 1727703073735,
+      "created": 1727703073735,
+      "name": "MJs FlowerPot",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_7f21fecbb9524ca496a8386d7257b146",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1729242191694,
+      "created": 1728298944085,
+      "url": "http://localhost:4000/login",
+      "name": "Logga in användare",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"identifier\": \"sara\",\n\t\"password\": \"saradoe1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1728298944085,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_f1b23a51d3714ef89653a37d3bee1373",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1728483797507,
+      "created": 1728483174678,
+      "url": "http://localhost:4000/anvandare/alla",
+      "name": "Hämta användare",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"identifier\": \"hanna\",\n\t\"password\": \"hannadoe1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2c2495631b2d4ced98f049c9a126179e"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0",
+          "id": "pair_1c214dff8d0f4b6f9d55165c26462c43"
+        },
+        {
+          "id": "pair_1bd7fd49f0b046f2a60bfea4b4a1facf",
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAzZDAzZDdhMDY3M2E5ZTYxYWVmZWMiLCJpYXQiOjE3Mjg0ODM1MDcsImV4cCI6MTcyODQ4NzEwN30.LmxdhXxcGBHdfn9zRC-9y2yz3wIwF-hhbZn_uIqXhx4",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1728298666977.5,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_64d5abe1180d425e8dda6795cbca7e75",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1729242161571,
+      "created": 1728298389870,
+      "url": "http://localhost:4000/registrera",
+      "name": "Registrera Användare",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"Sara\",\n\t\"userName\": \"sara\",\n\t\"email\": \"saraa@doe.com\",\n\t\"password\": \"saradoe1\",\n\t\"confirmPassword\": \"saradoe1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1728298389870,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8f29dfa23f244f5cb4003d7271667401",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1728303817478,
+      "created": 1727875734398,
+      "url": "http://localhost:4000/3",
+      "name": "Uppdatera produkt",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"title\" : \"Tomat\",\n\t\"category\" : \"garden\",\n\t\"price\" : 89,\n\t\"sort\" : \"Vinter tomat\",\n\t\"description\" : \"Söt röd sen vinter tomat\",\n\t\"available\" : \"true\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727875734398,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_39c08384a33842808337016984f26a29",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1728554787214,
+      "created": 1728547810508,
+      "url": "http://localhost:4000/anvandare/6706764962151b9525619ff5",
+      "name": "Uppdatera användare",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_ab6ee7ddd0d340aaa7cad5a1d590cd8d",
+            "name": "name",
+            "value": "Hanna",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_71ed465939e44ef99c2df7135ff938b3",
+            "name": "userName",
+            "value": "hanna",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_b69fb483283641ccbdc45e1a447c7722",
+            "name": "email",
+            "value": "hanna@doe.com",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_8d104a224c0a4c7192e943ba1d212f12",
+            "name": "password",
+            "value": "hannadoe1",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_da1a96216b2b4c439bedddeaf9895efe",
+            "name": "image",
+            "value": "",
+            "description": "",
+            "disabled": false,
+            "type": "file",
+            "fileName": "C:\\Users\\matil\\OneDrive\\Pictures\\Skärmbilder\\röjar-ralf 2.png"
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data",
+          "id": "pair_cb238755ff0a4d58af2a076f74cc52bc"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0",
+          "id": "pair_36a3d18273e54e87a129cf7d8251ebe7"
+        },
+        {
+          "id": "pair_cf6bd4fc89104415926b769021beabed",
+          "name": "Authorization",
+          "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAzZDAzZDdhMDY3M2E5ZTYxYWVmZWMiLCJpYXQiOjE3Mjg1NTQxMzcsImV4cCI6MTcyODU1NzczN30.LBs0H8k0kPKTM3l_tQIsb6fcoQSiXUD0lobutX7uosA",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727834372478,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_428e7615dccf4a49b5c236e2c58520a3",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1727874531221,
+      "created": 1727793010558,
+      "url": "http://localhost:4000/produkter",
+      "name": "Get all",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727793010558,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2ce6e2a8962a457ebb1af0c7361d51ec",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1728657124744,
+      "created": 1728651884016,
+      "url": "http://localhost:4000/popularaprodukter",
+      "name": "Nyheter",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727792922207,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c84a397dcaf44389ba13c57432a9af7a",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1727864943969,
+      "created": 1727792833856,
+      "url": "http://localhost:4000/5",
+      "name": "Radera produkt",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727792833856,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_54b35cc165004de79452ba0fc171ce4a",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1728028064856,
+      "created": 1727787060485,
+      "url": "http://localhost:4000/skapa",
+      "name": "Produkt",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_72805940e64f414f8a9cc4e09a999b95",
+            "name": "title",
+            "value": "Itstartwithus",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_1f562b4f73744c3cb83633e0fc285f46",
+            "name": "author",
+            "value": "Cooleen Hoover",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_c689927206f743e7bf0c639cc3db0230",
+            "name": "category",
+            "value": "book",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_664465c2d3964453bd64bf4268a4a7cb",
+            "name": "price",
+            "value": "199",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_5b44b93a5ac54407bb5834253c6a6906",
+            "name": "image",
+            "value": "",
+            "description": "",
+            "disabled": false,
+            "type": "file",
+            "fileName": "C:\\Users\\matil\\OneDrive\\Skrivbord\\FWD23\\u09-fullstack-js-MatildaAK\\frontend\\src\\assets\\images\\itStartWithUs.png"
+          },
+          {
+            "id": "pair_83a35933f7b04a5da8b4d8fcb5ddb5db",
+            "name": "description",
+            "value": "sometext aboutthebook,itwasreallygood",
+            "description": "",
+            "disabled": false
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727787060485,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0c25bac25b9d449b917cbd65947d145b",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1727792830858,
+      "created": 1727703086732,
+      "url": "http://localhost:4000/api/images/upload",
+      "name": "bild",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_e675a20addae4811badffa5df68de254",
+            "name": "produkter",
+            "value": "",
+            "description": "",
+            "disabled": false,
+            "type": "file",
+            "fileName": "C:\\Users\\matil\\OneDrive\\Skrivbord\\FWD23\\u09-fullstack-js-MatildaAK\\frontend\\src\\assets\\images\\november9.png"
+          },
+          {
+            "id": "pair_4b771f9c21674059ac7c49e5dcea7a79",
+            "name": "",
+            "value": "",
+            "description": "",
+            "disabled": false
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.0.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1727703086732,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_e2df8a14354946c9564ba1f43a01eec972ed0c5a",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1727703073742,
+      "created": 1727703073742,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1727703073742,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_e2df8a14354946c9564ba1f43a01eec972ed0c5a",
+      "parentId": "wrk_46cadd00c83c452cbddcbb4de9bd8edc",
+      "modified": 1727703073749,
+      "created": 1727703073749,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}

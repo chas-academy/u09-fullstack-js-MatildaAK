@@ -1,6 +1,8 @@
 import { IProduct } from "../interface/IProduct";
 import Product from "../models/productModel";
 import Image from "../models/imageModel";
+import { CustomRequest } from "middleware/auth";
+import { Response } from "express";
 
 const create = async (data: IProduct) => {
   try {
@@ -29,16 +31,6 @@ const fetchProducts = async (category?: string) => {
   }
 };
 
-// const readAll = async (req: any, res: any) => {
-//   try {
-//     const { category } = req.query;
-//     const products = await fetchProducts(category);
-//     res.status(200).json({ success: true, products });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Misslyckades med att hämta produkter" });
-//   }
-// };
-
 const read = async (id: number) => {
   if (!id) {
     throw new Error("Ett giltigt ID måste anges.");
@@ -66,16 +58,15 @@ const update = async (id: number, data: IProduct) => {
 
 export const createProduct = async (req: any, res: any) => {
   try {
+    let filePath: string;
 
-    let base64Images: string[] = [];
-    if (req.files && Array.isArray(req.files)) {
-      base64Images = req.files.map((file: any) => {
-        return file.buffer.toString('base64');
-      });
+    if (req.file) {
+      filePath = `${req.file.filename}`;
+    } else {
+      return res.status(400).json({ message: "Ingen bild har laddats upp" });
     }
-    
-    let lastProduct = await Product.findOne({}).sort({ id: -1 });
 
+    let lastProduct = await Product.findOne({}).sort({ id: -1 });
     let id = lastProduct ? lastProduct.id + 1 : 1;
 
     const {
@@ -99,7 +90,7 @@ export const createProduct = async (req: any, res: any) => {
       id,
       title,
       category,
-      image: base64Images,
+      image: filePath, 
       price,
       author,
       sort,
@@ -132,51 +123,73 @@ export const deleteProduct = async (req: any, res: any) => {
   }
 };
 
-export const getAllProducts = async (req: any, res: any) => {
+export const getAllProducts = async (req: CustomRequest, res: Response) => {
   try {
     const { category } = req.query;
-    const products = await fetchProducts(category);
-    res.status(200).json({ success: true, products });
+
+    let categoryValue: string | undefined;
+
+    if (Array.isArray(category)) {
+      categoryValue = category[0] as string;
+    } else if (typeof category === 'string') {
+      categoryValue = category;
+    }
+
+    const products = await fetchProducts(categoryValue);
+
+    const productsWithImageUrls = products.map((product) => {
+      console.log("Produktens bildnamn:", product.image);
+      return {
+        ...product,
+        image: Array.isArray(product.image) && product.image.length > 0 
+          ? `http://localhost:4000/uploads/${product.image[0]}` 
+          : '', 
+      };
+    });
+    
+    console.log("Hämtade kategorier:", products.map(product => product.category));
+
+
+    console.log("Produkter med bildvägar:", productsWithImageUrls);
+
+    res.status(200).json({ success: true, products: productsWithImageUrls });
   } catch (error) {
     res.status(500).json({ message: "Inga produkter hittades!" });
   }
 };
 
-
-export const updateProduct = async (req: any, res: any) => {
+export const updateProduct = async (req: CustomRequest, res: Response) => {
   try {
     const id = parseInt(req.params.id, 10);
-    const updatedProductData = req.body;
-
-    let base64Images: string[] = [];
-    
-    if (req.files && Array.isArray(req.files)) {
-      base64Images = req.files.map((file: any) => {
-        return file.buffer.toString('base64');
-      });
-    }
-
-    if (base64Images.length > 0) {
-      updatedProductData.image = base64Images;
-    }
-
     const existingProduct = await read(id);
 
     if (!existingProduct) {
       return res.status(404).json({ message: "Produkt hittades inte" });
     }
 
+    const updatedProductData = { ...req.body };
+    let filePath: string | undefined;
+
+    if (req.file) {
+      filePath = req.file.filename;
+      updatedProductData.image = filePath;
+    } 
+
+    if (!updatedProductData.title || !updatedProductData.price || !updatedProductData.category) {
+      return res.status(400).json({ message: "Titel, pris och kategori är obligatoriska fält" });
+    }
+
     const updatedProduct = await update(id, updatedProductData);
 
     res.status(200).json({ message: "Lyckad uppdatering", updatedProduct });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Opps! Något hände vid försök av uppdatering av produkt",
-      });
+    console.error(error);
+    res.status(500).json({
+      message: "Opps! Något hände vid försök av uppdatering av produkt",
+    });
   }
 };
+
 
 export const newCollections = async (req: any, res: any) => {
   try {

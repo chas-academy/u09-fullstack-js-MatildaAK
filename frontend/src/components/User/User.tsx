@@ -60,7 +60,7 @@ const User: React.FC = () => {
                     <div className="ml-6 flex items-center">
                         {user.image ? (
                             <img
-                                src={`data:image/jpeg;base64,${user.image}`}
+                                src={`${BASE_URL}/uploads/${user.image}`}
                                 alt={user.name || 'Användarbild'}
                                 className="rounded-full w-[35px] h-[35px] cursor-pointer"
                             />
