@@ -38,19 +38,21 @@ const AddProduct = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, type, value } = event.target;
-
+    const { name, type } = event.target;
+  
     const input = event.target as HTMLInputElement;
-
+  
     if (type === "file" && input.files) {
-      const fileArray = Array.from(input.files);
-      setProductData((prevFormData) => ({
-        ...prevFormData,
-        [name]: fileArray,
-      }));
-      setSelectedFileNames(fileArray.map((file) => file.name));
+      if (input.files.length > 0) {
+        const file = input.files[0];
+        setProductData((prevFormData) => ({
+          ...prevFormData,
+          [name]: file, 
+        }));
+        setSelectedFileNames([file.name]);
+      }
     } else if (name === "price") {
-      const priceValue = parseFloat(value);
+      const priceValue = parseFloat(event.target.value);
       setProductData((prevFormData) => ({
         ...prevFormData,
         [name]: priceValue,
@@ -70,17 +72,17 @@ const AddProduct = () => {
     const formDataToSend = new FormData();
 
     Object.keys(productData).forEach((key) => {
-      const value = productData[key as keyof IFormData];
-      formDataToSend.append(
-        key,
-        typeof value === "number" ? value.toString() : value || ""
-      );
+      if (key !== "image") {
+        const value = productData[key as keyof IFormData];
+        formDataToSend.append(
+          key,
+          typeof value === "number" ? value.toString() : value || ""
+        );
+      }
     });
 
-    if (productData.image && Array.isArray(productData.image)) {
-      productData.image.forEach((file) => {
-        formDataToSend.append("image", file);
-      });
+    if (productData.image) {
+      formDataToSend.append("image", productData.image);
     }
 
     const token = localStorage.getItem("token");
@@ -101,7 +103,7 @@ const AddProduct = () => {
             "Woho, produkt är nu skapad och du dirigeras till förstasidan!"
           );
           console.log(productStatus);
-          navigate("/admin");
+          navigate("/");
         } else {
           setProductStatus("error");
           window.alert("Produkt är inte skapad. Var god försök igen.");
@@ -119,7 +121,7 @@ const AddProduct = () => {
     <div className="text-black dark:text-white">
       <a
         type="button"
-        href="/admin"
+        href="/"
         className="flex justify-center px-4 py-2 dark:bg-thirdDarkBlue mt-4 mx-24 rounded-md"
       >
         Avbryt
@@ -206,6 +208,7 @@ const AddProduct = () => {
                 type="file"
                 name="image"
                 id="file-input"
+                accept="image/*"
                 multiple
                 hidden
                 onChange={handleInputChange}
@@ -213,7 +216,7 @@ const AddProduct = () => {
             </div>
             {selectedFileNames.length > 0 && (
               <div className="mt-2">
-                <h4>Valda filer:</h4>
+                <h4>Vald fil:</h4>
                 <ul>
                   {selectedFileNames.map((fileName, index) => (
                     <li key={index}>{fileName}</li>

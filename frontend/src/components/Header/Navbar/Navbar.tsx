@@ -66,18 +66,18 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
         fetchUserData()
     }, [isAuthenticated])
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownVisible(false)
-            }
-        }
+    // useEffect(() => {
+    //     const handleClickOutside = (event: MouseEvent) => {
+    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    //             setIsDropdownVisible(false)
+    //         }
+    //     }
 
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [])
+    //     document.addEventListener('mousedown', handleClickOutside)
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside)
+    //     }
+    // }, [])
 
     useEffect(() => {
         setIsDropdownVisible(false)
@@ -139,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                             <>
                                 {userData.image ? (
                                     <img
-                                        src={`data:image/jpeg;base64,${userData.image}`}
+                                        src={`${BASE_URL}/uploads/${userData.image}`}
                                         alt={userData.name || 'Användarbild'}
                                         onClick={toggleDropdown}
                                         className="rounded-full w-[35px] h-[35px] cursor-pointer"
@@ -230,7 +230,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                             <>
                                 {userData.image ? (
                                     <img
-                                        src={`data:image/jpeg;base64,${userData.image}`}
+                                        src={`${BASE_URL}/uploads/${userData.image}`}
                                         alt={userData.name || 'Användarbild'}
                                         onClick={toggleDropdown}
                                         className="rounded-full w-[35px] h-[35px] cursor-pointer"
@@ -312,12 +312,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                     >
                         Om MJs
                     </a>
-                    {/* <a
-                        href="/#"
-                        className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"
-                    >
-                        Profil
-                    </a> */}
                     <a
                         href="/#"
                         className="block px-4 py-2 text-black dark:text-white hover:bg-green-700"

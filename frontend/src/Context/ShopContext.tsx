@@ -12,6 +12,10 @@ type Product = {
   price: number;
   author?: string;
   sort?: string;
+  _doc?: {
+    category: string;
+    [key: string]: any;
+  }
 };
 
 type CartItem = {

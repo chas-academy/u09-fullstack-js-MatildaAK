@@ -5,16 +5,11 @@ import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import UpdateProductModal from "../UpdateProduct/UpdateProduct";
 import { useAuth } from "../../Auth/Auth";
 import BASE_URL from "../../../config";
+import { IProductData } from "./IProductData";
 
 interface IProduct {
-  id: number;
-  title: string;
-  author?: string;
-  category: string;
+  _doc: IProductData;
   image: string;
-  sort?: string;
-  description: string;
-  price: number;
 }
 
 const ProductList: React.FC = () => {
@@ -26,6 +21,7 @@ const ProductList: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   const { isAuthenticated } = useAuth();
   
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,6 +32,16 @@ const ProductList: React.FC = () => {
         }
         const data = await response.json();
         setProducts(data.products);
+
+        data.products.forEach((product: IProduct) => {
+          console.log(`Bild-URL för produkt ${product._doc.id}: ${BASE_URL}/uploads/${product._doc.image}`);
+        });
+
+        console.log("Hämtade produkter:", data.products);
+
+        const uniqueCategories = Array.from(new Set(data.products.map((product: IProduct) => product._doc.category)));
+        console.log("Unika kategorier:", uniqueCategories);
+
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -45,6 +51,8 @@ const ProductList: React.FC = () => {
 
     fetchProducts();
   }, []);
+   
+    const categories = Array.from(new Set(products.map((product) => product._doc.category)));
 
   const openModal = (product: IProduct) => {
     setSelectedProduct(product);
@@ -56,10 +64,10 @@ const ProductList: React.FC = () => {
     setSelectedProduct(null);
   };
 
-  const handleUpdate = (updatedProduct: IProduct) => {
+  const handleUpdate = (updatedProduct: IProductData) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === updatedProduct.id
+        product._doc.id === updatedProduct.id
           ? { ...product, ...updatedProduct }
           : product
       )
@@ -75,10 +83,8 @@ const ProductList: React.FC = () => {
     return <div>Fel: {error}</div>;
   }
 
-  const categories = [...new Set(products.map((product) => product.category))];
-
   const filteredProducts = selectedCategory
-    ? products.filter((product) => product.category === selectedCategory)
+    ? products.filter((product) => product._doc.category === selectedCategory)
     : products;
 
   const removeFromList = async (id: number) => {
@@ -95,11 +101,7 @@ const ProductList: React.FC = () => {
     }
 
     try {
-      //   const id = localStorage.getItem("id");
-      const { token } = useAuth();
-      //   if (!id || !token) {
-      //     throw new Error("User ID or token not found in local storage");
-      //   }
+      const token = localStorage.getItem("token");
 
       const response = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
@@ -112,7 +114,7 @@ const ProductList: React.FC = () => {
 
       if (response.ok) {
         setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== id)
+          prevProducts.filter((product) => product._doc.id !== id)
         );
 
         window.alert("Produkten har blivit borttaget.");
@@ -128,35 +130,35 @@ const ProductList: React.FC = () => {
   };
 
   return (
-    <div className="product-list">
+    <div>
       <CategorySelect
         categories={categories}
         onCategoryChange={setSelectedCategory}
       />
 
-      <ul className="product-list text-black dark:text-white my-4 flex justify-start flex-col">
+      <ul className="text-black dark:text-white my-4 flex justify-start flex-col">
         {filteredProducts.map((product) => (
-          <li key={product.id}>
+          <li key={product._doc.id}>
             <div>
               <div className="border-y-2 border-black dark:border-white">
                 <div className="flex flex-row py-4 px-6">
                   <div className="basis-1/2">
                     <div className="flex flex-row">
                       <img
-                        src={`data:image/jpeg;base64,${product.image}`}
-                        alt={product.title}
+                        src={`${BASE_URL}/uploads/${product._doc.image}`}
+                        alt={product._doc.title}
                         height={60}
                         width={43}
                       />
                       <div className="flex flex-col pl-4">
-                        <div>{product.title}</div>
-                        {product.category === "book" && (
-                          <p className="py-2">{product.author}</p>
+                        <div>{product._doc.title}</div>
+                        {product._doc.category === "book" && (
+                          <p className="py-2">{product._doc.author}</p>
                         )}
-                        {product.category === "garden" && (
-                          <p className="py-2">{product.sort}</p>
+                        {product._doc.category === "garden" && (
+                          <p className="py-2">{product._doc.sort}</p>
                         )}
-                        <div>{product.price}:-</div>
+                        <div>{product._doc.price}:-</div>
                       </div>
                     </div>
                   </div>
@@ -171,7 +173,7 @@ const ProductList: React.FC = () => {
                       <div className="pl-4 text-error cursor-pointer">
                         <FontAwesomeIcon
                           icon={faTrashCan}
-                          onClick={() => removeFromList(product.id)}
+                          onClick={() => removeFromList(product._doc.id)}
                         />
                       </div>
                     </div>
@@ -188,7 +190,7 @@ const ProductList: React.FC = () => {
           isOpen={isModalOpen}
           onRequestClose={closeModal}
           onUpdate={handleUpdate}
-          product={selectedProduct}
+          product={selectedProduct._doc}
         />
       )}
     </div>
@@ -196,3 +198,4 @@ const ProductList: React.FC = () => {
 };
 
 export default ProductList;
+

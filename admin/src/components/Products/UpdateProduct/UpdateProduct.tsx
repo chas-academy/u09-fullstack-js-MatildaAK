@@ -61,12 +61,14 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     const input = event.target as HTMLInputElement;
 
     if (type === "file" && input.files) {
-      const fileArray = Array.from(input.files);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: fileArray,
-      }));
-      setSelectedFileNames(fileArray.map((file) => file.name));
+      if (input.files.length > 0) {
+        const file = input.files[0];
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: file, 
+        }));
+        setSelectedFileNames([file.name]);
+      }
     } else if (name === "price") {
       const priceValue = value === "" ? 0 : parseFloat(value);
       setFormData((prevFormData) => ({
@@ -111,10 +113,8 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
       formDataToSend.append("category", formData.category);
     }
 
-    if (formData.image && Array.isArray(formData.image)) {
-      formData.image.forEach((image: File) => {
-        formDataToSend.append("image", image);
-      });
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
     }
 
     const token = localStorage.getItem("token");
@@ -228,7 +228,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
             )}
             <div className="flex justify-center mt-4">
               <img
-                src={`data:image/jpeg;base64,${product.image}`}
+                src={`${BASE_URL}/uploads/${product.image}`}
                 alt={product.title}
                 height={60}
                 width={43}
@@ -240,6 +240,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
                 type="file"
                 name="image"
                 id="file-input"
+                accept="image/*"
                 multiple
                 hidden
                 onChange={handleInputChange}
@@ -247,7 +248,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
             </div>
             {selectedFileNames.length > 0 && (
               <div className="mt-2">
-                <h4>Valda filer:</h4>
+                <h4>Vald fil:</h4>
                 <ul>
                   {selectedFileNames.map((fileName, index) => (
                     <li key={index}>{fileName}</li>

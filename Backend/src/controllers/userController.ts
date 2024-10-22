@@ -182,17 +182,12 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
     const id = req.params.id;
     const updatedUserData = req.body;
 
-    let base64Images: string[] = [];
+    let filePath: string | undefined;
 
-    if (req.files && Array.isArray(req.files)) {
-      base64Images = req.files.map((file: any) => {
-        return file.buffer.toString("base64");
-      });
-    }
-
-    if (base64Images.length > 0) {
-      updatedUserData.image = base64Images[0];
-    }
+    if (req.file) {
+      filePath = req.file.filename;
+      updatedUserData.image = filePath;
+    } 
 
     const existingUser = await read(id);
 
@@ -265,7 +260,8 @@ export const createUser = async (req: CustomRequest, res: Response) => {
       role,
     });
     await newUser.save();
-    res.status(201).json({ message: "Användare skapad.", user: newUser });
+    const token = await newUser.generateAuthToken();
+    res.status(201).json({ message: "Användare skapad.", user: newUser, token });
   } catch (error) {
     console.error("Fel vid skapande av användare:", error);
     res

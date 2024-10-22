@@ -52,7 +52,7 @@ const CreateUser: React.FC = () => {
       if (response.ok) {
         window.alert("Användare skapad framgångsrikt!");
         setUserData({ name: "", userName: "", email: "", password: "", role: 0 });
-        navigate("/admin");
+        navigate("/");
       } else {
         setStatusMessage(data.message || "Fel vid skapande av användare.");
       }
