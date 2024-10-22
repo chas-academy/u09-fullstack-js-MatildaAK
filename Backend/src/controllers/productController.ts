@@ -1,6 +1,5 @@
 import { IProduct } from "../interface/IProduct";
 import Product from "../models/productModel";
-import Image from "../models/imageModel";
 import { CustomRequest } from "middleware/auth";
 import { Response } from "express";
 
@@ -138,7 +137,6 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
     const products = await fetchProducts(categoryValue);
 
     const productsWithImageUrls = products.map((product) => {
-      console.log("Produktens bildnamn:", product.image);
       return {
         ...product,
         image: Array.isArray(product.image) && product.image.length > 0 
@@ -147,10 +145,6 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
       };
     });
     
-    console.log("Hämtade kategorier:", products.map(product => product.category));
-
-
-    console.log("Produkter med bildvägar:", productsWithImageUrls);
 
     res.status(200).json({ success: true, products: productsWithImageUrls });
   } catch (error) {
