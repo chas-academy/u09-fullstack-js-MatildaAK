@@ -140,7 +140,7 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
       return {
         ...product,
         image: Array.isArray(product.image) && product.image.length > 0 
-          ? `http://localhost:4000/uploads/${product.image[0]}` 
+          ? `https://u09-fullstack-js-matildaak.onrender.com/uploads/${product.image[0]}` 
           : '', 
       };
     });
