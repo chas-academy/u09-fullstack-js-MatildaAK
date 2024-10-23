@@ -7,7 +7,7 @@ import Button from '../Button/Button'
 import { loadStripe } from '@stripe/stripe-js'
 import BASE_URL from '../../config'
 
-const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_STRIPE_KEY)
+const stripePromise = loadStripe("pk_test_51NTMqiL9OmzOvV9CqzwunrchIVeekQkjPGD237BBbSB9pww9QiWVTypjglHzpdiMY5SZIv6GRCznN5WIlgbiQ0UX00XTpxVgDl")
 
 const CartItems = () => {
     const {

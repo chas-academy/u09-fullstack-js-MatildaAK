@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/favicon.ico', (req, res) => {
-  res.sendFile('../../../../favicon.ico')
+  res.sendFile('../../../favicon.ico')
 })
 
 app.use(express.static('public'));
