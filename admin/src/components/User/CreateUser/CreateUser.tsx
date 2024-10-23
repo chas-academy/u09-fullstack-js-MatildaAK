@@ -47,7 +47,6 @@ const CreateUser: React.FC = () => {
         body: JSON.stringify(userData),
       });
 
-      console.log("Data som skickas:", userData);
       const data = await response.json();
       if (response.ok) {
         window.alert("Användare skapad framgångsrikt!");

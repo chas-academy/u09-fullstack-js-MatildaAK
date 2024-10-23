@@ -69,7 +69,6 @@ const UpdateUser: React.FC<UpdateUserProps> = ({
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    console.log("Hämtar Token:", token);
 
     const formDataToSend = new FormData();
 

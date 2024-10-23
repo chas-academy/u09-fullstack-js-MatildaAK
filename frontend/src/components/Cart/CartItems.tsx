@@ -79,7 +79,6 @@ const CartItems = () => {
             }
 
             const session = await res.json()
-            console.log('session is here', session)
 
             const result = await stripe.redirectToCheckout({
                 sessionId: session.id,

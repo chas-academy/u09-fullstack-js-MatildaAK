@@ -17,8 +17,6 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Logging in", { loginIdentifier, password });
-
     try {
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
@@ -56,7 +54,6 @@ const LoginForm: React.FC = () => {
       setSuccess("Inloggning lyckades!");
       navigate("/");
       setError(null);
-      console.log("Inloggad användare:", data);
 
     } catch (err) {
       // Om det uppstår ett fel, sätt felet

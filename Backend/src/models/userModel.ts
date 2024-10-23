@@ -65,7 +65,7 @@ userSchema.methods.toJSON = function () {
 
 userSchema.statics.findByCredentials = async function (identifier, password) {
   try {
-    // console.log("Söker användare med identifier: ", identifier);
+
 
     // Vi söker antingen via email eller användarnamn
     const user = await User.findOne({
@@ -76,19 +76,16 @@ userSchema.statics.findByCredentials = async function (identifier, password) {
     });
 
     if (!user) {
-      // console.log("Ingen användare hittad för identifier: ", identifier);
       throw new Error("Felaktiga inloggningsuppgifter");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      // console.log("Fel lösenord för användare: ", user.email || user.userName);
-      throw new Error("Felaktigt lösenord");
+      throw new Error("Felaktiga email/ användarnamn eller lösenord");
     }
 
     return user;
   } catch (error) {
-    // console.error("Fel i findByCredentials:");
     throw new Error("Något gick fel under inloggningen");
   }
 };

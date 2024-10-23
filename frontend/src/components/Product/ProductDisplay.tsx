@@ -18,7 +18,6 @@ const ProductDisplay = (props: { product: any; }) => {
         const productId = product.id;
         const objectId = product._id.toString();
         addToCart(productId, objectId);
-        console.log("Added product to cart:", productId);
     };
 
   return (

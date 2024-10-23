@@ -135,7 +135,6 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ children }) =
         const token = localStorage.getItem('token')
         if (token) {
             try {
-                console.log('Removing product with ID:', objectId)
                 const response = await fetch(`${BASE_URL}/kundkorg/remove`, {
                     method: 'DELETE',
                     headers: {

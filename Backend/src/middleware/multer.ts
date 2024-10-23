@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
     cb: (arg0: null, arg1: string) => void
   ) {
     const uploadPath = path.join(__dirname, "uploads");
-    console.log("Saving file to:", uploadPath);
     cb(null, uploadPath);
   },
   filename: function (

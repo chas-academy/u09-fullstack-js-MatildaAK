@@ -28,7 +28,6 @@ userRouter.post("/registrera", async (req, res) => {
     image: req.body.image,
     role: req.body.role,
   };
-  console.log(req.body);
 
   const registeredUser = await registerUser(userData);
   if (registeredUser.error) {
@@ -40,7 +39,6 @@ userRouter.post("/registrera", async (req, res) => {
 });
 
 userRouter.post("/login", async (req, res) => {
-    console.log(req.body);
   
     const { identifier, password } = req.body;
   
@@ -49,17 +47,14 @@ userRouter.post("/login", async (req, res) => {
     }
   
     try {
-        // console.log("Inloggningsförfrågan mottagen med: ", identifier);
-      // Din inloggningslogik
+
       const loggedInUser = await loginUser({ identifier, password });
       if (loggedInUser?.error) {
-        // console.log("Inloggningsfel: ", loggedInUser.error);
         return res.status(400).json({ error: loggedInUser.error });
       }
   
       return res.status(200).json(loggedInUser);
     } catch (error: any) {
-        // console.error("Fel under inloggningsprocessen:", error.message);
       return res.status(500).json({ error: "Något gick fel under inloggningen" });
     }
   });
@@ -127,7 +122,6 @@ userRouter.get("/admin/:id", auth, admin, async (req, res) => {
 
 userRouter.post('/anvandare', auth, admin, createUser, async (req, res) => {
   try {
-    console.log(req.body);
     const { name, userName, email, password, role } = req.body;
     if (role !== 2 && role !== 1) {
       return res.status(400).json({ message: "Ogiltig roll." });
@@ -141,7 +135,6 @@ userRouter.post('/anvandare', auth, admin, createUser, async (req, res) => {
 userRouter.get("/anvandare/alla", auth, admin, async (req, res) => {
   try {
     const users = await User.find({});
-    console.log("Hämtade användare:", users);
     res.status(200).json({ users });
   } catch (error) {
     console.error("Misslyckades med att hämta användare:", error);

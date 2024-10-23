@@ -19,14 +19,10 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
         setSearchPerformed(true)
     }
 
-    console.log('Mottagen kategori:', category)
-    console.log('Alla produkter:', all_products)
-
     const filteredProducts = all_products.filter((item) => {
         const productCategory = item._doc?.category || item.category
         return productCategory === category
     })
-    console.log('Filtrerade produkter:', filteredProducts)
 
     return (
         <section>

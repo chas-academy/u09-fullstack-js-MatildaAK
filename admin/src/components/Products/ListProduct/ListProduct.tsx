@@ -33,14 +33,12 @@ const ProductList: React.FC = () => {
         const data = await response.json();
         setProducts(data.products);
 
-        data.products.forEach((product: IProduct) => {
-          console.log(`Bild-URL för produkt ${product._doc.id}: ${BASE_URL}/uploads/${product._doc.image}`);
-        });
+        // data.products.forEach((product: IProduct) => {
+        //   console.log(`Bild-URL för produkt ${product._doc.id}: ${BASE_URL}/uploads/${product._doc.image}`);
+        // });
 
-        console.log("Hämtade produkter:", data.products);
-
-        const uniqueCategories = Array.from(new Set(data.products.map((product: IProduct) => product._doc.category)));
-        console.log("Unika kategorier:", uniqueCategories);
+        // const uniqueCategories = Array.from(new Set(data.products.map((product: IProduct) => product._doc.category)));
+        // console.log("Unika kategorier:", uniqueCategories);
 
       } catch (error: any) {
         setError(error.message);
@@ -109,8 +107,6 @@ const ProductList: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(response.status);
 
       if (response.ok) {
         setProducts((prevProducts) =>

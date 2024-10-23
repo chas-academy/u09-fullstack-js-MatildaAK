@@ -18,21 +18,20 @@ const Success = () => {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ sessionId }), // Skicka sessionId som JSON
+                    body: JSON.stringify({ sessionId }),
                 });
     
                 if (!response.ok) {
-                    // Kasta ett fel om svaret inte är ok (statuskod 200-299)
                     throw new Error(`Error: ${response.status} ${response.statusText}`);
                 }
     
-                await response.json(); // Om du behöver bearbeta svaret
+                await response.json();
     
-                clearCart(); // Töm kundkorgen
+                clearCart();
             } catch (error) {
-                console.log(error);
+                console.error("Error:", error);
             } finally {
-                setIsProcessing(false); // Ställ in processing till false oavsett resultat
+                setIsProcessing(false);
             }
         };
     
