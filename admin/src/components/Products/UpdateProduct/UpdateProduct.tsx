@@ -118,7 +118,6 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     }
 
     const token = localStorage.getItem("token");
-    console.log("Hämtar Token:", token);
 
     try {
       const response = await fetch(`${BASE_URL}/${formData.id}`, {

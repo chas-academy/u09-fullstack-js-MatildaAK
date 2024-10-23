@@ -15,8 +15,8 @@ const SearchResultsList: React.FC<{
             const doc = product._doc || product;
   
             return (
-              <div key={product.id} className="mb-4 text-center">
-                <Link to={`/${doc.category}/${product.id}`}>
+              <div key={doc.id} className="mb-4 text-center">
+                <Link to={`/${doc.category}/${doc.id}`}>
                   <div className="p-4 rounded-lg bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3 text-black dark:text-white">
                     <div className="flex justify-center">
                       <img

@@ -1,5 +1,4 @@
 import Item from '../../components/Product/PopularItems/Item'
-import Button from '../../components/Button/Button'
 import { useContext, useState } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
 import Searchbar, { Product } from '../../components/Searchbar/Searchbar'
@@ -20,14 +19,10 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
         setSearchPerformed(true)
     }
 
-    console.log('Mottagen kategori:', category)
-    console.log('Alla produkter:', all_products)
-
     const filteredProducts = all_products.filter((item) => {
         const productCategory = item._doc?.category || item.category
         return productCategory === category
     })
-    console.log('Filtrerade produkter:', filteredProducts)
 
     return (
         <section>
@@ -75,11 +70,11 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
                         const doc = item._doc || item
                         return (
                             <div
-                                key={item.id}
+                                key={doc.id}
                                 className="border p-4 rounded-lg bg-primaryLightGreen dark:bg-primaryDarkGreen mx-6 my-3"
                             >
                                 <Item
-                                    id={item.id}
+                                    id={doc.id}
                                     image={doc.image}
                                     title={doc.title}
                                     author={doc.category === 'book' ? doc.author : undefined}
@@ -97,11 +92,11 @@ const Category: React.FC<CategoryProps> = ({ category, banner }) => {
                 )}
             </div>
 
-            <div className="my-10 text-center text-black dark:text-white">
+            {/* <div className="my-10 text-center text-black dark:text-white">
                 <Button type="button" variant="third" size="small">
                     Ladda fler produkter
                 </Button>
-            </div>
+            </div> */}
         </section>
     )
 }

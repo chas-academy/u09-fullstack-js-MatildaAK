@@ -26,7 +26,6 @@ app.use("/kundkorg", cartRouter);
 app.use("/", orderRouter);
 
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
   next();
 });
 

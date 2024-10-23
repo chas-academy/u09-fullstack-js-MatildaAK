@@ -46,16 +46,11 @@ const RegisterForm: React.FC = () => {
             } else {
               setRegistrationStatus("error");
               window.alert("Woho, du är nu registrerad & dirigeras till Login!");
-              // Redirect the user, show a success message, etc.
               navigate("/Login");
             }
-    
-            console.log("Det här är data från DB:", data);
-            // Handle response data
           })
           .catch((error) => {
             console.error("Error:", error);
-            // Handle the error
             window.alert("Registrering misslyckades. Var god försök igen.");
           });
       };

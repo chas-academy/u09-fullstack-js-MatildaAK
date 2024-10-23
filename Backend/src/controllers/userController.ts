@@ -97,25 +97,18 @@ export const loginUser = async (user: {
   const { identifier, password } = user;
 
   if (!identifier || !password) {
-    console.log("Identifier eller lösenord saknas");
     return { error: "Ange både användarnamn/e-post och lösenord" };
   }
 
   try {
-    // console.log("Försöker logga in med identifier: ", identifier);
-    // Vi försöker hitta användaren antingen via email eller användarnamn
     const existingUser = await User.findByCredentials(identifier, password);
 
     if (!existingUser) {
-      // console.log("Ingen användare hittad med dessa uppgifter");
       return { error: "Invalid credentials" };
     }
-    // console.log("Användare inloggad: ", existingUser)
     const token = await existingUser.generateAuthToken();
     return { user: existingUser, token };
   } catch (error: any) {
-    // console.error("Fel i loginUser-funktionen", error);
-    // Se till att felmeddelandet returneras ordentligt
     return { error: "Något gick fel under inloggningen" };
   }
 };
@@ -135,7 +128,6 @@ export const logoutUser = async (req: any) => {
 export const getAllUsers = async () => {
   try {
     const users = await User.find({}, "-password");
-    console.log("Användare som hittades:", users);
 
     if (!users || users.length === 0) {
       return { users: [] };
