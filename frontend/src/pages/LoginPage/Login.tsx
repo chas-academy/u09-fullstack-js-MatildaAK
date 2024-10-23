@@ -16,16 +16,8 @@ const LoginForm: React.FC = () => {
     const { onLogin } = useOutletContext<ContextType>()
     const navigate = useNavigate()
 
-    // const handleSubmit = (e: React.FormEvent) => {
-    //     e.preventDefault()
-    //     console.log('Logging in', { loginIdentifier, password });
-
-    // }
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
-        console.log('Logging in', { loginIdentifier, password })
 
         try {
             const response = await fetch(`${BASE_URL}/login`, {
@@ -64,7 +56,6 @@ const LoginForm: React.FC = () => {
             setSuccess('Inloggning lyckades!')
             navigate('/')
             setError(null)
-            console.log('Inloggad användare:', data)
         } catch (err) {
             // Om det uppstår ett fel, sätt felet
             setError('Inloggning misslyckades. Kontrollera dina uppgifter.')

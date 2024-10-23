@@ -47,33 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('identifier', identifier)
         localStorage.setItem('id', userId)
         localStorage.setItem('token', token)
-    }
-
-  //   const clearCart = async () => {
-  //     const token = localStorage.getItem('token');
-  //     if (token) {
-  //       try {
-  //           const response = await fetch(`${BASE_URL}/clearCart`, {
-  //               method: 'DELETE',
-  //               headers: {
-  //                   Authorization: `Bearer ${token}`,
-  //                   'Content-Type': 'application/json',
-  //               },
-  //           });
-  //           if (!response.ok) {
-  //               throw new Error(`Error: ${response.statusText}`);
-  //           }
-  //           const data = await response.json();
-  //           console.log('Kundkorgen har tagits bort från databasen.', data);
-  //       } catch (error) {
-  //           console.error('Fel vid borttagning av kundkorg:', error);
-  //       }
-  //   }
-  // };
-  
+    }  
 
     const logout = () => {
-        // clearCart()
         setIsAuthenticated(false)
         setIdentifier(null)
         setUserId(null)

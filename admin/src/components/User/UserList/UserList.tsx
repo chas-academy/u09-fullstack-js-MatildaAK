@@ -100,8 +100,6 @@ const UserList: React.FC = () => {
         },
       });
 
-      console.log(response.status);
-
       if (response.ok) {
         setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
 

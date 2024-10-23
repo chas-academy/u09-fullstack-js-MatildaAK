@@ -19,10 +19,10 @@ function App() {
     }
     return (
         <>
-            <div>
+            <div className='min-h-screen flex flex-col'>
                 <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
 
-                <main>
+                <main className='flex-grow'>
                     <Outlet
                         context={{
                             onLogin: handleLogin,

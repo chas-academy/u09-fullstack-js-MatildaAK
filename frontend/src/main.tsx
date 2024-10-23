@@ -23,7 +23,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
     const { isAuthenticated, token } = useAuth()
 
-    console.log('ProtectedRoute - isAuthenticated:', isAuthenticated)
     if (isAuthenticated) {
         return element
     }

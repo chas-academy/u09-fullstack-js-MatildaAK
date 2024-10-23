@@ -102,14 +102,11 @@ const AddProduct = () => {
           window.alert(
             "Woho, produkt är nu skapad och du dirigeras till förstasidan!"
           );
-          console.log(productStatus);
           navigate("/");
         } else {
           setProductStatus("error");
           window.alert("Produkt är inte skapad. Var god försök igen.");
         }
-
-        console.log("Det här är data från DB:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
