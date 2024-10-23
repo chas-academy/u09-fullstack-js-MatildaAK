@@ -11,7 +11,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [identifier, setIdentifier] = useState<string | null>(null);
@@ -23,33 +22,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const currentTime = Math.floor(Date.now() / 1000);
     return payload.exp < currentTime;
   }
-
-
-  // useEffect(() => {
-  //   const storedIsAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  //   const storedIdentifier = localStorage.getItem("identifier");
-  //   const storedUserId = localStorage.getItem("id");
-  //   const storedToken = localStorage.getItem("token");
-
-  //   console.log("Token from localStorage:", storedToken);
-
-  //   if (storedToken && isTokenExpired(storedToken)) {
-  //     logout();
-  //     console.log("Token is invalid or expired");
-  //   } else if (storedIsAuthenticated && storedIdentifier && storedUserId && storedToken) {
-  //     setIsAuthenticated(true);
-  //     setIdentifier(storedIdentifier);
-  //     setUserId(storedUserId);
-  //     setToken(storedToken);
-  //     console.log("User is authenticated");
-  //   }
-  //   // if (storedIsAuthenticated && storedIdentifier && storedUserId && storedToken) {
-  //   //   setIsAuthenticated(true);
-  //   //   setIdentifier(storedIdentifier);
-  //   //   setUserId(storedUserId);
-  //   //   setToken(storedToken);
-  //   // }
-  // }, []);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
