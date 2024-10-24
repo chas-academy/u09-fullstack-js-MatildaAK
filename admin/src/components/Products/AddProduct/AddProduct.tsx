@@ -28,6 +28,8 @@ const AddProduct = () => {
   const [productStatus, setProductStatus] = useState<
     "success" | "error" | undefined
   >(undefined);
+  
+  console.log(productStatus)
 
   const [selectedFileNames, setSelectedFileNames] = useState<string[]>([]);
 
