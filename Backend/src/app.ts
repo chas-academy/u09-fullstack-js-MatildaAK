@@ -29,11 +29,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile('../../../favicon.ico')
-})
+// app.get('/favicon.ico', (req, res) => {
+//   res.sendFile('../../../favicon.ico')
+// })
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 app.get('/check-file/:filename', (req, res) => {
   const filename = req.params.filename;
