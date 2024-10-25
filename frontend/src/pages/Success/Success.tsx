@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import BASE_URL from "../../config";
-import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const Success = () => {
     const [isProcessing, setIsProcessing] = useState(true);
