@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import BASE_URL from "../../config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 const Success = () => {
     const [isProcessing, setIsProcessing] = useState(true);
 	const { clearCart } = useContext(ShopContext);
 	const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleCheckoutSuccess = async (sessionId: string) => {
@@ -49,11 +51,11 @@ const Success = () => {
 	if (error) return `Error: ${error}`;
 
     return (
-        <div className="text-black dark:text-white">
-            <h1>Tack för ditt köp!</h1>
-            <p>Din betalning har genomförts. Du kommer att få en bekräftelse via e-post.</p>
+        <div className="text-black dark:text-white text-center mt-20">
+            <h1 className="text-xl font-semibold mb-4">Tack för ditt köp!</h1>
+            <p>Din betalning har genomförts.</p>
 
-            <Link to={"/"}>Tillbaks till webshoppen</Link>
+            <Button type={"button"} variant="secondary" size="small" onClick={() => navigate('/')}>Tillbaks till webshoppen</Button>
         </div>
     )
 }
