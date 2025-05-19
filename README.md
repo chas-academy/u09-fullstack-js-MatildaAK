@@ -8,9 +8,6 @@ Så denna e-handels och hemsida är en början på den drömmen.
 1. Klona eller forka projektet
 2. kör kommandot:
 ```bash
-npm i 
-```
-```bash
 npm install
 ```
 
